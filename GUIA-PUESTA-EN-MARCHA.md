@@ -97,6 +97,16 @@ La contraseña docente la elige y la escribe la persona responsable del taller. 
 
 Cuando termine la prueba, en la consola tocar **Empezar de nuevo** para que esa respuesta no se mezcle con las de la clase. Otra opción es cambiar `sala` en `assets/config.js`, que separa por completo un ensayo de la clase real.
 
+## Compartir la consola con otro docente
+
+Mandarle por privado este enlace, con la contraseña docente al final:
+
+```
+https://guillermoleale.com/taller_datos/en-vivo.html#clave=CONTRASEÑA
+```
+
+Al abrirlo, la consola guarda la contraseña en ese navegador y la saca de la barra de direcciones. Quien tenga el enlace puede abrir y cerrar actividades, así que no va en grupos ni en el chat de la clase. Si dos docentes tienen la consola abierta, las dos muestran lo mismo.
+
 ## Antes de la clase
 
 - [ ] La consola dice **Conectado a la planilla**.

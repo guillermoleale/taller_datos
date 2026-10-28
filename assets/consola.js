@@ -473,7 +473,15 @@
       }
       conexion(true);
       var nuevo = e && e.ok ? e.estado : estado;
-      if (JSON.stringify(nuevo) !== JSON.stringify(estado)) { estado = nuevo; dibujarTodo(); }
+      if (JSON.stringify(nuevo) !== JSON.stringify(estado)) {
+        estado = nuevo;
+        // Anota la ronda que abrió otra consola, para que tocar esa actividad no la reinicie.
+        if (estado && rondas[estado.actividad] !== estado.ronda) {
+          rondas[estado.actividad] = estado.ronda;
+          guardar("taller-rondas:" + SALA, rondas);
+        }
+        dibujarTodo();
+      }
       else if (r && r.filas.length) { dibujarResultado(); dibujarLista(); }
     }).catch(function (err) {
       conexion(false, err && err.message);
@@ -504,6 +512,12 @@
 
   if (EV.modo === "planilla") {
     var s = $("secreto");
+    // Enlace docente (en-vivo.html#clave=...): guarda la contraseña y la saca de la barra de direcciones.
+    var clave = /(?:^#|&)clave=([^&]*)/.exec(location.hash);
+    if (clave) {
+      guardar("taller-secreto", decodeURIComponent(clave[1]));
+      history.replaceState(null, "", location.pathname + location.search);
+    }
     s.value = cargar("taller-secreto", "") || "";
     s.addEventListener("change", function () { guardar("taller-secreto", s.value); });
     $("ajustes-planilla").hidden = false;
