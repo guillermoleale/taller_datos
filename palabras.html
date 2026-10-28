@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Una palabra para dato</title>
+<meta name="description" content="Actividad del Taller de Datos: palabras asociadas a la palabra dato, en una nube y agrupadas a mano.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/estilos.css">
+<style>
+  .consigna { font-size: clamp(1.4rem, 2vw + 1rem, 2.2rem); --renglon: clamp(2.4rem, 2.6vw + 1.4rem, 3.2rem); max-width: 40rem; }
+  .barra-herramientas { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 1rem; }
+  .barra-herramientas .separar { margin-left: auto; }
+  .carga form { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .carga input[type="text"], .carga textarea, #form-grupo input {
+    font: inherit; font-family: var(--interfaz); font-size: 1rem; color: var(--tinta);
+    background: var(--ficha); border: 1px solid var(--pauta); border-radius: 6px; padding: 0.5rem 0.75rem; min-height: 2.5rem;
+  }
+  .carga input[type="text"] { flex: 1 1 14rem; }
+  .carga textarea { width: 100%; min-height: 8rem; margin: 0.5rem 0; }
+  .carga details { margin-top: 0.75rem; font-family: var(--interfaz); font-size: 0.95rem; }
+  .carga summary { cursor: pointer; color: var(--grafito); }
+  .nube {
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 0.2rem 1rem;
+    min-height: 14rem; padding: 2rem 1rem; margin-top: 1rem;
+    background: var(--ficha); border: 1px solid var(--pauta); border-radius: 6px;
+  }
+  .nube-vacia { color: var(--grafito); align-self: center; text-align: center; margin: 0; }
+  .palabra {
+    font-family: var(--texto); line-height: 1.15; color: var(--grafito);
+    background: none; border: 0; padding: 0.1rem 0.15rem; cursor: pointer; border-radius: 3px;
+  }
+  .palabra.repetida { color: var(--tinta); font-weight: 600; }
+  .palabra.mas { color: var(--margen); font-weight: 700; }
+  .palabra:hover { text-decoration: line-through; text-decoration-color: var(--margen); }
+  #resumen { font-family: var(--interfaz); font-size: 0.95rem; color: var(--grafito); margin-top: 0.75rem; }
+  #quitadas { margin-top: 0.5rem; font-family: var(--interfaz); font-size: 0.9rem; color: var(--grafito); display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+  .chip {
+    font-family: var(--interfaz); font-size: 0.95rem; color: var(--tinta);
+    background: var(--relleno); border: 1px solid var(--pauta); border-radius: 4px;
+    padding: 0.3rem 0.6rem; cursor: pointer; min-height: 2.2rem;
+  }
+  .chip small { color: var(--grafito); font-size: 0.8rem; }
+  .chip[aria-pressed="true"] { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+  .chip[aria-pressed="true"] small { color: var(--papel); }
+  .zona { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 1rem; border: 1px dashed var(--pauta); border-radius: 6px; min-height: 4rem; }
+  #grupos { display: grid; gap: 1rem; margin-top: 1rem; }
+  @media (min-width: 48rem) { #grupos { grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); } }
+  .grupo { border: 1px solid var(--pauta); border-left: 3px solid var(--margen); border-radius: 4px; padding: 0.75rem 1rem; background: var(--ficha); }
+  .grupo.esperando { border-color: var(--barra); border-left-color: var(--margen); }
+  .grupo-cabeza { display: flex; align-items: baseline; gap: 0.5rem; }
+  .grupo-cabeza input { font: inherit; font-weight: 600; font-size: 1.15rem; color: var(--tinta); background: transparent; border: 0; border-bottom: 1px solid transparent; flex: 1; min-width: 0; padding: 0.15rem 0; }
+  .grupo-cabeza input:hover, .grupo-cabeza input:focus { border-bottom-color: var(--pauta); }
+  .grupo-total { font-family: var(--interfaz); font-size: 0.85rem; color: var(--grafito); white-space: nowrap; }
+  .grupo-palabras { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.6rem 0; min-height: 2.2rem; }
+  .grupo-acciones { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  #form-grupo { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
+  #form-grupo input { flex: 1 1 14rem; }
+</style>
+</head>
+<body>
+<header class="cabecera">
+  <div class="hoja">
+    <a class="marca" href="index.html">Taller de Datos</a>
+    <nav aria-label="Materiales">
+      <a href="respuestas.html">Qué respondieron</a>
+      <a href="palabras.html" aria-current="page">Una palabra para dato</a>
+      <a href="tipos.html">Tipos de datos</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="pantalla">
+    <div class="hoja">
+      <h1>Una palabra para dato</h1>
+      <div class="ficha consigna">
+        <p>Escriban en el chat una o dos palabras que asocien con la palabra <i>dato</i>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pantalla">
+    <div class="hoja ancha">
+      <h2>La nube</h2>
+      <div class="barra-herramientas" role="group" aria-label="Qué palabras mostrar">
+        <button class="boton" id="modo-chat" type="button" aria-pressed="true">Palabras del chat</button>
+        <button class="boton" id="modo-form" type="button" aria-pressed="false">Palabras del formulario</button>
+        <button class="boton discreto separar" id="vaciar" type="button">Empezar de cero</button>
+      </div>
+
+      <div class="carga" id="carga">
+        <form id="form-palabras">
+          <label class="solo-lector" for="entrada">Palabras del chat</label>
+          <input type="text" id="entrada" placeholder="Escribí las palabras que llegan, separadas por coma" autocomplete="off">
+          <button class="boton principal" type="submit">Agregar</button>
+        </form>
+        <details>
+          <summary>Pegar el chat completo</summary>
+          <label class="solo-lector" for="texto-chat">Texto del chat</label>
+          <textarea id="texto-chat" placeholder="Pegá acá los mensajes del chat"></textarea>
+          <button class="boton" id="cargar-chat" type="button">Cargar en la nube</button>
+          <p class="nota">Las horas y los enlaces se quitan solos. Si quedan nombres de personas, tocalos en la nube para sacarlos.</p>
+        </details>
+      </div>
+      <p class="nota" id="nota-formulario" hidden>Estas son las palabras que usaron en el formulario para responder qué sería para ustedes un dato. Casi ninguna se repite: cada respuesta lo pensó a su manera.</p>
+
+      <div class="nube" id="nube" aria-live="polite"></div>
+      <p id="resumen"></p>
+      <div id="quitadas" hidden></div>
+      <p class="nota">Tocá una palabra para sacarla de la nube. El tamaño depende de cuántas veces aparece.</p>
+    </div>
+  </section>
+
+  <section class="pantalla">
+    <div class="hoja ancha">
+      <h2>Agrupar</h2>
+      <p>Creá un grupo, elegí una palabra y después tocá <b>Poner acá</b> en el grupo donde va.</p>
+      <form id="form-grupo">
+        <label class="solo-lector" for="nombre-grupo">Nombre del grupo nuevo</label>
+        <input type="text" id="nombre-grupo" placeholder="Nombre del grupo, por ejemplo: verdad" autocomplete="off">
+        <button class="boton" type="submit">Crear grupo</button>
+      </form>
+      <h3>Sin grupo</h3>
+      <div class="zona" id="sin-grupo"></div>
+      <button class="boton discreto" id="dejar-sin-grupo" type="button" hidden style="margin-top:0.5rem">Sacar del grupo</button>
+      <div id="grupos"></div>
+    </div>
+  </section>
+
+  <section class="pantalla">
+    <div class="hoja">
+      <h2>Para pensar</h2>
+      <ul class="preguntas">
+        <li>¿Qué palabras se repiten y cuáles aparecen una sola vez?</li>
+        <li>¿Qué quedó afuera de la nube?</li>
+        <li>¿Quién decidió los grupos y con qué criterio?</li>
+      </ul>
+      <p class="bajada" style="margin-top:1.5rem">La nube cuenta palabras, pero no sabe qué quieren decir. Agrupar obliga a decidir, y esa decisión ya es construir un dato.</p>
+      <a class="siguiente" href="tipos.html">Seguimos: tipos de datos</a>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="hoja">Lo que cargues queda guardado solo en este navegador. No se envía a ningún lado.</div>
+</footer>
+
+<button class="boton control-presentar" type="button" aria-pressed="false">Presentar</button>
+
+<script src="assets/datos.js"></script>
+<script src="assets/sitio.js"></script>
+<script src="assets/palabras.js"></script>
+</body>
+</html>

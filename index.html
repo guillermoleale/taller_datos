@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller de Datos</title>
+<meta name="description" content="Materiales del encuentro propedéutico del Taller de Datos, Maestría en Humanidades Aumentadas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/estilos.css">
+<style>
+  .portada { padding-block: clamp(2.5rem, 8vh, 5rem) 2rem; }
+  .portada .ficha { max-width: 40rem; }
+  .portada h1 { margin: 0; }
+  .portada .encabezado-ficha { font-family: var(--interfaz); font-size: 0.95rem; color: var(--grafito); margin-top: 0.5rem; }
+  .indice { list-style: none; margin: 0; padding: 0; counter-reset: entrada; }
+  .indice li { counter-increment: entrada; display: grid; grid-template-columns: 1.75rem 1fr; }
+  .indice li::before { content: counter(entrada); font-weight: 600; color: var(--margen); }
+  .indice a { font-weight: 600; font-size: 1.15rem; }
+  .indice span { grid-column: 2; color: var(--grafito); }
+  .recursos { padding-block: 2.5rem 3rem; }
+  .recursos dl { margin: 0; }
+  .recursos dt { font-weight: 600; margin-top: 1.25rem; }
+  .recursos dd { margin: 0; color: var(--grafito); }
+</style>
+</head>
+<body>
+<header class="cabecera">
+  <div class="hoja">
+    <a class="marca" href="index.html">Taller de Datos</a>
+    <nav aria-label="Materiales">
+      <a href="respuestas.html">Qué respondieron</a>
+      <a href="palabras.html">Una palabra para dato</a>
+      <a href="tipos.html">Tipos de datos</a>
+    </nav>
+  </div>
+</header>
+
+<main class="hoja">
+  <section class="portada">
+    <div class="ficha cabeza-libre">
+      <h1>Taller de Datos</h1>
+      <p class="encabezado-ficha">Encuentro previo al taller. Maestría en Humanidades Aumentadas.</p>
+      <div class="renglones">
+        <ol class="indice">
+          <li><a href="respuestas.html">Qué respondieron</a><span>Lo que nos contaron en el formulario, sin nombres.</span></li>
+          <li><a href="palabras.html">Una palabra para dato</a><span>La actividad del chat y sus palabras en una nube.</span></li>
+          <li><a href="tipos.html">Tipos de datos</a><span>De la planilla al fanzine: qué cambia cuando el material no viene en filas.</span></li>
+        </ol>
+      </div>
+    </div>
+    <p class="nota" style="margin-top:1.25rem">No hace falta instalar nada. Todo funciona en el navegador, también desde el celular.</p>
+  </section>
+
+  <section class="recursos">
+    <h2>Para seguir</h2>
+    <dl>
+      <dt><a href="https://orangedatamining.com">Orange</a></dt>
+      <dd>El programa que usamos en el taller. Se trabaja conectando bloques en pantalla, sin programar.</dd>
+      <dt><a href="https://voyant-tools.org">Voyant Tools</a></dt>
+      <dd>Pegás un texto en el navegador y te muestra qué palabras se repiten, en qué contexto y cuáles aparecen juntas.</dd>
+      <dt><a href="https://www.taguette.org">Taguette</a></dt>
+      <dd>Para marcar y etiquetar fragmentos de textos, como se hace en el análisis cualitativo.</dd>
+      <dt>Para leer</dt>
+      <dd>Johanna Drucker, <a href="http://www.digitalhumanities.org/dhq/vol/5/1/000091/000091.html">“Humanities Approaches to Graphical Display”</a> (2011). Sobre el dato como algo que se toma y no algo que se da.</dd>
+      <dd style="margin-top:0.5rem">Catherine D’Ignazio y Lauren Klein, <a href="https://data-feminism.mitpress.mit.edu"><i>Data Feminism</i></a> (2020). Quién cuenta, quién es contado y qué queda afuera.</dd>
+      <dd style="margin-top:0.5rem">Lisa Gitelman (ed.), <i>“Raw Data” Is an Oxymoron</i> (2013). El título ya dice mucho.</dd>
+    </dl>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="hoja">Maestría en Humanidades Aumentadas. CEI, Universidad Nacional de Rosario.</div>
+</footer>
+</body>
+</html>
