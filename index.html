@@ -20,6 +20,9 @@
   .indice a { font-weight: 600; font-size: 1.15rem; }
   .indice span { grid-column: 2; color: var(--grafito); }
   .recursos { padding-block: 2.5rem 3rem; }
+  .participar { margin-top: 1.5rem; max-width: 40rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; }
+  .participar p { margin: 0; flex: 1 1 18rem; }
+  .participar .boton { text-decoration: none; display: inline-flex; align-items: center; font-size: 1.05rem; padding-inline: 1.2rem; }
   .recursos dl { margin: 0; }
   .recursos dt { font-weight: 600; margin-top: 1.25rem; }
   .recursos dd { margin: 0; color: var(--grafito); }
@@ -33,6 +36,7 @@
       <a href="respuestas.html">Qué respondieron</a>
       <a href="palabras.html">Una palabra para dato</a>
       <a href="tipos.html">Tipos de datos</a>
+      <a href="generativo.html">Un modelo clasificando</a>
     </nav>
   </div>
 </header>
@@ -47,10 +51,15 @@
           <li><a href="respuestas.html">Qué respondieron</a><span>Lo que nos contaron en el formulario, sin nombres.</span></li>
           <li><a href="palabras.html">Una palabra para dato</a><span>La actividad del chat y sus palabras en una nube.</span></li>
           <li><a href="tipos.html">Tipos de datos</a><span>De la planilla al fanzine: qué cambia cuando el material no viene en filas.</span></li>
+          <li><a href="generativo.html">Un modelo clasificando</a><span>Un modelo de lenguaje clasifica comentarios cuatro veces. ¿Coincide con ustedes?</span></li>
         </ol>
       </div>
     </div>
-    <p class="nota" style="margin-top:1.25rem">No hace falta instalar nada. Todo funciona en el navegador, también desde el celular.</p>
+    <div class="participar">
+      <p>Durante el encuentro vamos a votar, armar nubes de palabras y etiquetar imágenes en vivo.</p>
+      <a class="boton principal" href="participar.html">Participar en vivo</a>
+    </div>
+    <p class="nota" style="margin-top:1.25rem">No hace falta instalar nada ni registrarse. Todo funciona en el navegador, también desde el celular.</p>
   </section>
 
   <section class="recursos">
@@ -71,7 +80,7 @@
 </main>
 
 <footer class="pie">
-  <div class="hoja">Maestría en Humanidades Aumentadas. CEI, Universidad Nacional de Rosario.</div>
+  <div class="hoja">Maestría en Humanidades Aumentadas. CEI, Universidad Nacional de Rosario. <a href="en-vivo.html">Consola docente</a></div>
 </footer>
 </body>
 </html>

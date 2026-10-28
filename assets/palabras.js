@@ -35,7 +35,13 @@
   var datos = { modo: "chat", estados: { chat: estadoVacio(), formulario: estadoFormulario() } };
   try {
     var guardado = JSON.parse(localStorage.getItem(ALMACEN));
-    if (guardado && guardado.estados) datos = guardado;
+    if (guardado && guardado.estados) {
+      datos = guardado;
+      // La consola en vivo puede dejar solo las palabras del chat: completamos lo que falte.
+      if (!datos.estados.chat) datos.estados.chat = estadoVacio();
+      if (!datos.estados.formulario) datos.estados.formulario = estadoFormulario();
+      if (!datos.modo) datos.modo = "chat";
+    }
   } catch (e) { /* sin almacenamiento: se trabaja en memoria */ }
 
   var seleccion = null;

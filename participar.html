@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Participar en vivo</title>
+<meta name="description" content="Participá en vivo de las actividades del Taller de Datos.">
+<link rel="stylesheet" href="assets/estilos.css">
+<style>
+  body { font-size: 1.15rem; }
+  main.hoja { padding-block: 1.5rem 3rem; max-width: 34rem; }
+  h1 { font-size: clamp(1.7rem, 4vw + 1rem, 2.4rem); }
+  .grupo { font-family: var(--interfaz); font-size: 0.9rem; color: var(--grafito); margin-bottom: 0.25rem; }
+  .consigna { font-size: 1.2rem; }
+  .responder { display: grid; gap: 0.6rem; margin-top: 0.5rem; }
+  .responder input, .responder textarea {
+    font: inherit; font-family: var(--interfaz); font-size: 1.1rem; color: var(--tinta);
+    background: var(--ficha); border: 1px solid var(--pauta); border-radius: 8px; padding: 0.75rem 0.9rem; width: 100%;
+  }
+  .responder textarea { min-height: 7rem; resize: vertical; }
+  .responder .boton { min-height: 3rem; font-size: 1.05rem; }
+  .opciones { display: grid; gap: 0.6rem; margin-top: 0.75rem; }
+  .opcion {
+    font: inherit; font-family: var(--interfaz); font-size: 1.1rem; text-align: left; color: var(--tinta);
+    background: var(--ficha); border: 1px solid var(--pauta); border-left: 4px solid var(--pauta); border-radius: 8px;
+    padding: 0.85rem 1rem; min-height: 3.2rem; cursor: pointer;
+  }
+  .opcion[aria-pressed="true"] { border-color: var(--barra); border-left-color: var(--margen); background: var(--relleno); font-weight: 600; }
+  .mensaje { font-family: var(--interfaz); font-size: 1rem; min-height: 1.5rem; margin-top: 1rem; }
+  .mensaje.ok { color: var(--barra); }
+  .mensaje.error { color: var(--margen); }
+  .imagen { width: 100%; max-height: 55vh; object-fit: contain; background: var(--relleno); border-radius: 6px; margin: 0.5rem 0; }
+  .cita { font-style: italic; margin: 0.5rem 0; }
+  .otra { margin-top: 1rem; font-family: var(--interfaz); font-size: 1rem; }
+  .otra summary { cursor: pointer; color: var(--grafito); padding: 0.5rem 0; }
+  .aviso { font-family: var(--interfaz); font-size: 0.95rem; border-left: 3px solid var(--margen); padding: 0.5rem 0.8rem; background: var(--ficha); }
+  .marca-chica { font-weight: 600; text-decoration: none; }
+</style>
+</head>
+<body>
+<header class="cabecera">
+  <div class="hoja" style="max-width:34rem">
+    <a class="marca marca-chica" href="index.html">Taller de Datos</a>
+  </div>
+</header>
+<main class="hoja">
+  <p class="aviso" id="prueba" hidden>Modo de prueba: esta página solo se conecta con la consola abierta en este mismo navegador.</p>
+  <p class="aviso" id="conexion" hidden>No hay conexión. Si no podés participar desde acá, escribí tu respuesta en el chat de la reunión.</p>
+  <div id="contenido" aria-live="polite">
+    <h1>Conectando…</h1>
+  </div>
+  <p id="mensaje" class="mensaje" role="status"></p>
+  <p class="nota" style="margin-top:2rem">Tus respuestas son anónimas: no pedimos nombre ni correo.</p>
+</main>
+<script src="assets/config.js"></script>
+<script src="assets/envivo.js"></script>
+<script src="assets/actividades.js"></script>
+<script src="assets/participar.js"></script>
+</body>
+</html>

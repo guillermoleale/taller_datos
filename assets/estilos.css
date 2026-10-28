@@ -200,6 +200,27 @@ html.presentar .cabecera { display: none; }
 
 .siguiente { display: inline-block; margin-top: 1.5rem; font-weight: 600; }
 
+/* Nube de palabras y fichas pequeñas (compartido) */
+.nube {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 0.2rem 1rem;
+  min-height: 14rem; padding: 2rem 1rem;
+  background: var(--ficha); border: 1px solid var(--pauta); border-radius: 6px;
+}
+.nube .vacio { color: var(--grafito); align-self: center; margin: 0; }
+.palabra {
+  font-family: var(--texto); line-height: 1.15; color: var(--grafito);
+  background: none; border: 0; padding: 0.1rem 0.15rem; cursor: pointer; border-radius: 3px;
+}
+.palabra.repetida { color: var(--tinta); font-weight: 600; }
+.palabra.mas { color: var(--margen); font-weight: 700; }
+.palabra:hover { text-decoration: line-through; text-decoration-color: var(--margen); }
+.chip {
+  display: inline-block; font-family: var(--interfaz); font-size: 0.95rem; color: var(--tinta);
+  background: var(--relleno); border: 1px solid var(--pauta); border-radius: 4px; padding: 0.3rem 0.6rem;
+}
+.acciones { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 1rem; }
+.aviso-error { color: var(--margen); font-family: var(--interfaz); font-size: 0.95rem; }
+
 /* Pie */
 .pie { border-top: 1px solid var(--pauta); padding-block: 2rem 3rem; font-family: var(--interfaz); font-size: 0.9rem; color: var(--grafito); }
 
