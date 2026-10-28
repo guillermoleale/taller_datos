@@ -33,6 +33,8 @@ Mientras `urlScript` esté vacío en `assets/config.js`, todo funciona en **modo
 
 ## Conectar la planilla para la clase
 
+La guía completa, con chequeos y problemas frecuentes, está en [GUIA-PUESTA-EN-MARCHA.md](GUIA-PUESTA-EN-MARCHA.md). Resumen:
+
 La planilla ya existe en el Drive del equipo: **Taller de Datos: respuestas en vivo**.
 
 1. Abrir la planilla y entrar a **Extensiones > Apps Script**.
