@@ -19,11 +19,18 @@
   // Imagen del objeto: se muestra solo en esta pantalla
   var CLAVE_IMG = "taller-datos-objeto-v1";
   var figura = $("objeto-imagen"), vacio = $("objeto-vacio");
-  function mostrarImagen(src) {
+  // Objeto precargado: José María Cao, alegoría del invierno (Caras y Caretas n.º 13), Wikimedia Commons
+  var OBJETO_DEFECTO = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Invierno_caras_y_caretas.jpg/960px-Invierno_caras_y_caretas.jpg";
+  var ALT_DEFECTO = figura.alt, credito = $("objeto-credito");
+  function mostrarImagen(src, esDefecto) {
     figura.src = src; figura.hidden = false; vacio.hidden = true;
+    figura.alt = esDefecto ? ALT_DEFECTO : "Objeto elegido para la actividad";
+    if (credito) credito.hidden = !esDefecto;
     $("quitar-imagen").hidden = false;
   }
-  try { var guardada = localStorage.getItem(CLAVE_IMG); if (guardada) mostrarImagen(guardada); } catch (e) {}
+  var guardada = null;
+  try { guardada = localStorage.getItem(CLAVE_IMG); } catch (e) {}
+  if (guardada) mostrarImagen(guardada); else mostrarImagen(OBJETO_DEFECTO, true);
   $("archivo").addEventListener("change", function () {
     var f = this.files && this.files[0];
     if (!f) return;
@@ -36,6 +43,7 @@
   });
   $("quitar-imagen").addEventListener("click", function () {
     figura.hidden = true; figura.removeAttribute("src"); vacio.hidden = false; this.hidden = true;
+    if (credito) credito.hidden = true;
     try { localStorage.removeItem(CLAVE_IMG); } catch (e) {}
   });
 
