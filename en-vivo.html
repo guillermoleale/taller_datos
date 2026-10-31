@@ -16,6 +16,7 @@
   #conexion[data-estado="ok"] { border-color: var(--barra); color: var(--tinta); }
   #conexion[data-estado="error"] { border-color: var(--margen); color: var(--margen); }
   .ajustes { font-size: 0.9rem; }
+  .cabecera a.boton { text-decoration: none; display: inline-flex; align-items: center; }
   .ajustes summary { cursor: pointer; }
   .ajustes .caja { position: absolute; right: 1rem; margin-top: 0.5rem; z-index: 20; background: var(--ficha); border: 1px solid var(--pauta); border-radius: 6px; padding: 1rem; width: min(22rem, calc(100vw - 2rem)); }
   .ajustes label { display: grid; gap: 0.25rem; }
@@ -144,6 +145,7 @@
         <p class="nota" style="margin:0.75rem 0 0"><a href="temporizador.html" target="_blank" rel="noopener">Abrir el temporizador solo, en una página en blanco</a></p>
       </div>
     </details>
+    <a class="boton discreto" href="material.html" target="_blank" rel="noopener">Material de apoyo</a>
     <button class="boton" id="ver-qr" type="button">Mostrar QR para participar</button>
     <details class="ajustes">
       <summary>Ajustes</summary>

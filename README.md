@@ -14,6 +14,7 @@ Materiales y actividades en vivo del encuentro previo al Taller de Datos de la M
 | `en-vivo.html` | Consola docente: abre actividades, muestra el QR y los resultados en vivo. |
 | `participar.html` | Lo que ven los alumnos en el celular. El enlace corto es `/p`. |
 | `temporizador.html` | Solo el temporizador, grande en una página en blanco, para proyectar sin ninguna actividad. |
+| `material.html` | Material de apoyo docente: ejemplos con gráficos, tablas e imágenes, un texto breve y las fuentes. Se abre desde la consola. Los datos de los gráficos están en `assets/material-datos.js`. |
 
 En computadora, el botón **Presentar** de las páginas de contenido muestra una pantalla por vez (flechas para avanzar, Escape para salir).
 
@@ -64,12 +65,23 @@ Para separar un ensayo de la clase real, cambiar `sala` en `assets/config.js`.
 
 ## Imágenes
 
-Todas de Wikimedia Commons, de dominio público:
+Las de las actividades son todas de Wikimedia Commons, de dominio público:
 
 - Cartero en la provincia de Buenos Aires, hacia 1920. Archivo General de la Nación.
 - Ernesto de la Cárcova, *Sin pan y sin trabajo*, 1894. Museo Nacional de Bellas Artes.
 - José María Cao, alegoría del invierno, *Caras y Caretas* n.º 13.
 - Diagonal Norte, Buenos Aires, hacia 1936. Archivo General de la Nación.
+
+Las de `material.html` están en `assets/img/` y cada una lleva su crédito en la página:
+
+- Mapa del cólera de John Snow (1854), versión de Wikimedia Commons. Dominio público.
+- Avión con impactos (sesgo de supervivencia), McGeddon, Wikimedia Commons. CC BY-SA 4.0.
+- Exvoto de Lévis (1754), Musée national des beaux-arts du Québec, Wikimedia Commons. Dominio público.
+- Figuras 6 y 7 del informe de la Comisión Rogers (1986). Dominio público (gobierno de EE. UU.).
+- Cuadro tarifario del colectivo de Miyake-jima (2014), publicado por el municipio de Miyake.
+- **Con derechos de autor**, usadas con fines educativos: la infografía de Alabama de Starkey Comics (2021) y la foto del cuadro tarifario del Expreso VGG publicada por La Capital (2026). Si el sitio va a ser público, conviene pedir permiso o reemplazarlas por un enlace.
+
+Los mapas de las tablas de tarifas se incrustan desde OpenStreetMap y necesitan internet.
 
 ## Publicar con GitHub Pages
 

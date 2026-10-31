@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Material de apoyo</title>
+<meta name="description" content="Taller de Datos: ejemplos con gráficos, tablas y referencias para la clase.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/estilos.css">
+<style>
+  .rubro { font-family: var(--interfaz); font-size: 0.9rem; color: var(--margen); margin: 0 0 0.4rem; letter-spacing: 0.02em; }
+  .item { display: grid; gap: 1.25rem 2rem; grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @media (min-width: 62rem) { .item { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); } }
+  .item h2 { grid-column: 1 / -1; margin-bottom: 0; }
+  .lamina { margin: 0; background: var(--ficha); border: 1px solid var(--pauta); border-radius: 6px; padding: 1rem 1rem 0.75rem; min-width: 0; }
+  .lamina img { margin: 0 auto; max-height: 72vh; width: auto; height: auto; border-radius: 3px; }
+  .lamina figcaption { font-family: var(--interfaz); font-size: 0.85rem; color: var(--grafito); margin-top: 0.6rem; line-height: 1.4; }
+  .lamina + .lamina { margin-top: 1rem; }
+  .relato p { font-size: 1.05rem; }
+  .relato blockquote { margin: 0 0 1em; padding: 0.25rem 0 0.25rem 1rem; border-left: 3px solid var(--margen); font-style: italic; }
+  .referencias { font-family: var(--interfaz); font-size: 0.85rem; color: var(--grafito); line-height: 1.45; margin: 1rem 0 0; padding-left: 1.2rem; border-top: 1px solid var(--pauta); padding-top: 0.75rem; }
+  .referencias li { margin-bottom: 0.35rem; overflow-wrap: anywhere; }
+  .referencias a { text-decoration-thickness: 1px; }
+
+  .tabla-caja { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table.datos { border-collapse: collapse; width: 100%; font-family: var(--interfaz); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+  table.datos th, table.datos td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--pauta); vertical-align: top; }
+  table.datos thead th { border-bottom: 2px solid var(--margen); font-weight: 600; }
+  table.datos td.num, table.datos th.num { text-align: right; }
+  table.datos td.num { white-space: nowrap; }
+  table.datos tr.destacada td { font-weight: 600; background: var(--relleno); }
+  table.datos td.falta { color: var(--grafito); font-style: italic; }
+  .ver-datos { margin-top: 0.5rem; font-family: var(--interfaz); font-size: 0.9rem; }
+  .ver-datos summary { cursor: pointer; color: var(--grafito); }
+  .ver-datos .tabla-caja { max-height: 18rem; overflow-y: auto; margin-top: 0.5rem; }
+
+  .indice-material { display: grid; gap: 1.5rem 2rem; grid-template-columns: minmax(0, 1fr); margin-top: 2rem; }
+  @media (min-width: 48rem) { .indice-material { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 72rem) { .indice-material { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .indice-material h3 { font-size: 1.05rem; margin: 0 0 0.4rem; color: var(--margen); font-family: var(--interfaz); font-weight: 600; }
+  .indice-material ol { margin: 0; padding-left: 1.2rem; }
+  .indice-material li { margin-bottom: 0.2rem; }
+
+  .cifras { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 40rem) { .cifras { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .cifra-chica { font-size: clamp(2.5rem, 5vw, 3.75rem); font-weight: 700; line-height: 1; letter-spacing: -0.02em; margin: 0 0 0.35rem; }
+  .cifras p:not(.cifra-chica) { font-family: var(--interfaz); font-size: 0.95rem; color: var(--grafito); margin: 0; }
+
+  .barras-anchas li { padding: 0.6rem 0; }
+  @media (min-width: 40rem) { .barras-anchas li { grid-template-columns: minmax(11rem, 15rem) 1fr 3.5rem; } }
+  .carpetas { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
+  .carpetas li { position: relative; background: var(--ficha); border: 1px solid var(--pauta); border-radius: 0 6px 6px 6px; padding: 0.9rem 0.9rem 2.2rem; font-family: var(--interfaz); font-size: 0.95rem; line-height: 1.35; }
+  .carpetas li::before { content: ""; position: absolute; top: -0.6rem; left: -1px; width: 5rem; height: 0.6rem; background: var(--ficha); border: 1px solid var(--pauta); border-bottom: 0; border-radius: 5px 5px 0 0; }
+  .carpetas li::after { content: "vacía"; position: absolute; right: 0.8rem; bottom: 0.6rem; font-size: 0.8rem; color: var(--grafito); font-style: italic; }
+
+  .mapa { display: block; width: 100%; height: 22rem; border: 0; border-radius: 3px; background: var(--relleno); }
+  table.tarifas { font-size: 0.75rem; }
+  table.tarifas th, table.tarifas td { padding: 0.3rem 0.24rem; }
+  .lamina a.ampliar { display: block; cursor: zoom-in; }
+  table.tarifas thead th { white-space: normal; vertical-align: bottom; }
+  table.tarifas tbody th { font-weight: 600; white-space: nowrap; }
+
+  /* Gráficos (assets/graficos.js) */
+  .grafico-lineas { min-width: 0; }
+  .g-svg { display: block; font-family: var(--interfaz); overflow: visible; }
+  .g-eje { font-size: 13px; fill: var(--grafito); }
+  .g-grilla { stroke: var(--pauta); stroke-width: 1; }
+  .g-base { stroke: var(--grafito); stroke-width: 1; opacity: 0.7; }
+  .g-hueco { fill: var(--relleno); }
+  .g-hueco-texto { font-size: 13px; fill: var(--grafito); font-style: italic; }
+  .g-vertical { stroke: var(--margen); stroke-width: 1.5; }
+  .g-linea { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+  .g-punto { stroke: var(--ficha); stroke-width: 2; }
+  .g-marca { font-size: 14px; font-weight: 600; fill: var(--tinta); }
+  .g-marca-sub { font-size: 13px; fill: var(--grafito); }
+  .serie-1 .g-linea { stroke: var(--barra); }
+  .serie-1 .g-punto, .g-ley.serie-1 { fill: var(--barra); --c: var(--barra); }
+  .serie-2 .g-linea { stroke: var(--margen); }
+  .serie-2 .g-punto, .g-ley.serie-2 { fill: var(--margen); --c: var(--margen); }
+  .serie-3 .g-linea { stroke: var(--grafito); }
+  .serie-3 .g-punto, .g-ley.serie-3 { fill: var(--grafito); --c: var(--grafito); }
+  .serie-gris .g-linea { stroke: var(--pauta); stroke-width: 3; }
+  html.presentar .g-eje, html.presentar .g-marca-sub, html.presentar .g-hueco-texto { font-size: 15px; }
+  html.presentar .g-marca { font-size: 16px; }
+</style>
+</head>
+<body>
+<header class="cabecera">
+  <div class="hoja">
+    <a class="marca" href="index.html">Taller de Datos</a>
+    <nav aria-label="Docente">
+      <a href="material.html" aria-current="page">Material de apoyo</a>
+      <a href="en-vivo.html">Consola docente</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="pantalla" id="inicio">
+    <div class="hoja ancha">
+      <h1>Material de apoyo</h1>
+      <p class="bajada">Ejemplos para la clase: cada uno con su gráfico, tabla o imagen, los hechos en pocas líneas y las fuentes.</p>
+      <nav class="indice-material" aria-label="Índice">
+        <div>
+          <h3>Datos con historia</h3>
+          <ol>
+            <li><a href="#patentes">Patentes: cuánto dura cada serie</a></li>
+            <li><a href="#soja">Lluvia y soja en Pergamino</a></li>
+            <li><a href="#cebada">La cebada de Morris</a></li>
+            <li><a href="#snow">El mapa del cólera de John Snow</a></li>
+            <li><a href="#alabama">Una costa de hace 100 millones de años</a></li>
+          </ol>
+        </div>
+        <div>
+          <h3>Tablas que dibujan un mapa</h3>
+          <ol>
+            <li><a href="#vgg">El cuadro tarifario del Expreso VGG</a></li>
+            <li><a href="#miyake">Un colectivo que da la vuelta a una isla</a></li>
+          </ol>
+        </div>
+        <div>
+          <h3>Lo que falta revela lo que pasó</h3>
+          <ol>
+            <li><a href="#wald">Wald y los aviones que no volvieron</a></li>
+            <li><a href="#diagoras">Diágoras y las tablillas</a></li>
+            <li><a href="#challenger">Challenger: los vuelos que quedaron afuera</a></li>
+          </ol>
+        </div>
+        <div>
+          <h3>Cuando se deja de publicar</h3>
+          <ol>
+            <li><a href="#indec">Argentina: la pobreza sin cifra oficial</a></li>
+            <li><a href="#censo">URSS: el censo de 1937</a></li>
+            <li><a href="#urss">URSS: la mortalidad infantil</a></li>
+            <li><a href="#china">China: el desempleo juvenil</a></li>
+            <li><a href="#india">India: la encuesta de consumo</a></li>
+            <li><a href="#venezuela">Venezuela: la inflación</a></li>
+          </ol>
+        </div>
+        <div>
+          <h3>Los grises del mapa</h3>
+          <ol>
+            <li><a href="#covid">COVID-19: cero casos o ningún dato</a></li>
+            <li><a href="#lancet">Los que no aparecen en ningún registro</a></li>
+            <li><a href="#eeuu">Estados Unidos: el mes sin inflación</a></li>
+          </ol>
+        </div>
+        <div>
+          <h3>Lo que nadie contaba</h3>
+          <ol>
+            <li><a href="#femicidios">Femicidios en la Argentina</a></li>
+            <li><a href="#mmiwg">Mujeres indígenas desaparecidas</a></li>
+            <li><a href="#sen">Las mujeres que faltan</a></li>
+            <li><a href="#onuoha">La biblioteca de los datasets que faltan</a></li>
+          </ol>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <section class="pantalla" id="patentes">
+    <div class="hoja ancha">
+      <p class="rubro">Datos con historia</p>
+      <div class="item">
+        <h2>Patentes: cuánto tardó en agotarse cada serie</h2>
+        <figure class="lamina">
+          <div class="grafico-lineas" id="g-patentes"></div>
+          <figcaption>Vehículos patentados acumulados desde abril de 2016. Cada punto es el mes aproximado en que empezó a entregarse una serie nueva.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>Desde abril de 2016 los vehículos nuevos en la Argentina llevan patentes del formato Mercosur: dos letras, tres números y dos letras (AA 000 AA). Las patentes se asignan en orden y la última letra es la que cambia primero.</p>
+          <p>Cada serie de dos letras iniciales tiene 676.000 combinaciones (1.000 números por 26 × 26 pares de letras finales). Por eso la distancia vertical entre dos puntos es siempre la misma y lo que cambia es el tiempo: entre 8 y 10 meses por serie entre 2016 y 2018, entre 15 y 22 meses entre 2018 y 2024, y 13 meses para la serie AH.</p>
+          <p>Las fechas son aproximadas al mes: no hay un registro oficial público del día en que se entregó la primera patente de cada serie. Las motos usan otro formato y no están incluidas.</p>
+          <ol class="referencias">
+            <li>Wikipedia, <a href="https://es.wikipedia.org/wiki/Matr%C3%ADculas_automovil%C3%ADsticas_de_Argentina">«Matrículas automovilísticas de Argentina»</a>, tabla «Evolución aproximada del patentamiento actual».</li>
+            <li>Infobae, <a href="https://www.infobae.com/economia/2026/07/08/las-claves-de-la-patente-como-saber-de-que-ano-es-un-auto-segun-sus-letras/">«Las claves de la patente: cómo saber de qué año es un auto según sus letras»</a>, 8 de julio de 2026.</li>
+            <li>El Litoral, <a href="https://www.ellitoral.com/informacion-general/patentes-argentina-vehiculos-patentamiento-chapas-ai-autos-crece-parque-automotor_0_00U0fovsgt.html">«Las patentes argentinas llegaron a "AI" casi sobre el cierre de 2025»</a>, diciembre de 2025.</li>
+            <li>Ámbito, <a href="https://www.ambito.com/informacion-general/vas-comprar-un-auto-usado-como-calcular-la-antiguedad-del-vehiculo-mirando-la-patente-n6302418">«Cómo calcular la antigüedad del vehículo mirando la patente»</a>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pantalla" id="soja">
+    <div class="hoja ancha">
+      <p class="rubro">Datos con historia</p>
+      <div class="item">
+        <h2>Lluvia del verano y rendimiento de la soja en Pergamino</h2>
+        <figure class="lamina">
+          <div class="grafico-lineas" id="g-soja"></div>
+          <figcaption>Una campaña por punto, de 2000/01 a 2024/25. Eje horizontal: lluvia acumulada de diciembre a marzo. Eje vertical: rendimiento de la soja en el departamento.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>El Ministerio de Agricultura publica desde 1941 la superficie sembrada y cosechada, la producción y el rendimiento de la soja de cada departamento del país. La lluvia sale de NASA POWER, que estima el clima de cualquier coordenada a partir de satélites y modelos; no es el registro de una estación.</p>
+          <p>De las cinco campañas con menos lluvia entre diciembre y marzo (2022/23, 2017/18, 2020/21, 2003/04 y 2008/09), cuatro están entre las seis de menor rendimiento; la excepción es 2003/04. En 2022/23 llovieron 224 mm, el rendimiento fue de 1.857 kg/ha y se cosecharon 131.202 de las 163.102 hectáreas sembradas.</p>
+          <p>El rendimiento también depende de otros factores (variedades, manejo, fecha de siembra) y tiende a subir con los años, así que la lluvia explica una parte de la variación, no toda.</p>
+          <ol class="referencias">
+            <li>Ministerio de Agricultura, Ganadería y Pesca, <a href="https://datos.gob.ar/dataset/soja-siembra-cosecha-produccion-rendimiento">«Soja: siembra, cosecha, producción y rendimiento»</a>, datos.gob.ar. Departamento de Pergamino, campañas 2000/01 a 2024/25.</li>
+            <li>NASA Langley Research Center, <a href="https://power.larc.nasa.gov/">POWER Project</a>, variable PRECTOTCORR mensual en latitud −33,89, longitud −60,57. Consultado el 31 de octubre de 2026.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pantalla" id="cebada">
+    <div class="hoja ancha">
+      <p class="rubro">Datos con historia</p>
+      <div class="item">
+        <h2>La cebada de Morris: un dato que parecía un error</h2>
+        <figure class="lamina">
+          <div class="grafico-lineas" id="g-cebada"></div>
+          <figcaption>Rendimiento promedio de diez variedades de cebada en seis localidades de Minnesota, en bushels por acre (1 bu/ac de cebada ≈ 54 kg/ha).</figcaption>
+        </figure>
+        <div class="relato">
+          <p>En 1931 y 1932 se ensayaron diez variedades de cebada en seis localidades de Minnesota. Los datos, publicados por Immer, Hayes y Powers en 1934, se volvieron un ejemplo clásico de visualización.</p>
+          <p>En cinco localidades el rendimiento de 1932 fue menor que el de 1931 en nueve o diez variedades. En Morris fue mayor en las diez. En <i>Visualizing Data</i> (1993), William Cleveland sostuvo que lo más probable era que los años de Morris estuvieran invertidos por error.</p>
+          <p>En 2013 Kevin Wright revisó los ensayos de 1927 a 1936 y encontró que en esa época las diferencias entre localidades de un año a otro eran grandes y frecuentes, por sequías, plagas y enfermedades. Concluyó que el resultado de Morris no era sorprendente y que los datos probablemente son correctos. En la serie ampliada faltan los rendimientos de Morris de 1933 y 1934; según las notas del conjunto de datos, por la sequía.</p>
+          <ol class="referencias">
+            <li>F. R. Immer, H. K. Hayes y L. Powers, <a href="https://doi.org/10.2134/agronj1934.00021962002600050008x">«Statistical determination of barley varietal adaptation»</a>, <i>Journal of the American Society of Agronomy</i>, 26, 1934, pp. 403–419.</li>
+            <li>William S. Cleveland, <i>Visualizing Data</i>, Hobart Press, 1993.</li>
+            <li>Kevin Wright, <a href="https://doi.org/10.1080/00031305.2013.801783">«Revisiting Immer's barley data»</a>, <i>The American Statistician</i>, 67(3), 2013, pp. 129–133. Resumen: <a href="https://www.r-bloggers.com/2014/07/theres-no-mistake-in-the-barley-data/">«There's no mistake in the barley data»</a>, R-bloggers, 2014.</li>
+            <li>Datos: <a href="https://search.r-project.org/CRAN/refmans/agridat/html/minnesota.barley.yield.html">agridat, <code>minnesota.barley.yield</code></a>; versión 1931–1932 en <code>lattice::barley</code> y en <a href="https://cdn.jsdelivr.net/npm/vega-datasets@2.8.0/data/barley.json">vega-datasets</a>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pantalla" id="snow">
+    <div class="hoja ancha">
+      <p class="rubro">Datos con historia</p>
+      <div class="item">
+        <h2>El mapa del cólera de John Snow (Londres, 1854)</h2>
+        <div>
+        <figure class="lamina">
+          <a class="ampliar" href="assets/img/snow-colera-1854.jpg" target="_blank" rel="noopener"><img src="assets/img/snow-colera-1854.jpg" alt="Mapa de las calles del Soho, en Londres, con las bombas de agua marcadas con cruces y cada muerte por cólera con un punto; los puntos se concentran alrededor de la bomba de Broad Street." width="889" height="869" loading="lazy"></a>
+          <figcaption>Versión del mapa de John Snow de las muertes por cólera alrededor de Broad Street, publicado en <i>On the Mode of Communication of Cholera</i>, 2.ª ed., 1855. Dominio público, <a href="https://commons.wikimedia.org/wiki/File:Snow-cholera-map.jpg">Wikimedia Commons</a>.</figcaption>
+        </figure>
+        <figure class="lamina">
+          <div class="grafico-lineas" id="g-snow"></div>
+          <figcaption>Ataques fatales por día, según la tabla de Snow. A los 571 con fecha se suman 45 sin fecha: 616 muertes en total.</figcaption>
+        </figure>
+        </div>
+        <div class="relato">
+          <p>El 31 de agosto de 1854 empezó un brote de cólera en el Soho, en Londres. Según el médico John Snow, en un radio de unos 230 metros hubo más de quinientos ataques fatales en diez días. Snow marcó cada muerte en un mapa, frente a la casa donde ocurrió, junto con las bombas públicas de agua. Las muertes se concentraban alrededor de la bomba de Broad Street.</p>
+          <p>Snow también anotó dónde casi no hubo muertes. En el asilo de Poland Street, rodeado por casas con víctimas, murieron 5 de sus 535 internos: el asilo tenía un pozo propio. En la cervecería de Broad Street, ninguno de sus más de setenta trabajadores tuvo cólera grave: tomaban cerveza y la cervecería también tenía su pozo.</p>
+          <p>El 7 de septiembre Snow presentó sus observaciones a las autoridades de la parroquia de St. James y al día siguiente se retiró la manija de la bomba. Según la tabla del propio Snow, los casos nuevos ya venían bajando: 143 el 1 de septiembre y 12 el día 8.</p>
+          <ol class="referencias">
+            <li>John Snow, <a href="https://www.gutenberg.org/ebooks/72894"><i>On the Mode of Communication of Cholera</i></a>, 2.ª ed., Londres, John Churchill, 1855 (Proyecto Gutenberg).</li>
+            <li>Centers for Disease Control and Prevention, <a href="https://www.cdc.gov/mmwr/preview/mmwrhtml/mm5334a1.htm">«150th Anniversary of John Snow and the Pump Handle»</a>, <i>MMWR</i>, 53(34), 2004.</li>
+            <li>Museum of London, <a href="https://www.londonmuseum.org.uk/collections/london-stories/john-snow-cholera-broad-street-pump/">«John Snow: Cholera & the Broad Street pump»</a>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pantalla" id="alabama">
+    <div class="hoja ancha">
+      <p class="rubro">Datos con historia</p>
+      <div class="item">
+        <h2>Una costa de hace 100 millones de años y las elecciones en Alabama</h2>
+        <figure class="lamina">
+          <a class="ampliar" href="assets/img/alabama-starkey.webp" target="_blank" rel="noopener"><img src="assets/img/alabama-starkey.webp" alt="Seis mapas de Alabama en secuencia: sedimentos del Cretácico, suelo de la pradera negra, tamaño de las granjas en 2007, población esclavizada en 1860, población negra en 2010 y resultados electorales de 2020. La misma franja central se repite en todos." width="1394" height="1394" loading="lazy"></a>
+          <figcaption>Starkey Comics, «How a coastline 100 million years ago influences modern election results in Alabama», 2021. Imagen con derechos de su autor, reproducida con fines educativos.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>La infografía pone en secuencia seis mapas de Alabama hechos con fuentes distintas: el Servicio Geológico de Alabama, un mapa de suelos de 1984, el tamaño medio de las granjas en 2007, un mapa de 1861 con datos del censo de 1860, el censo de 2010 y los resultados electorales de 2020.</p>
+          <p>Hace unos 100 millones de años, durante el Cretácico, la costa pasaba por el centro del actual Alabama y dejó sedimentos que formaron un suelo oscuro y fértil, la llamada pradera negra (<i>Black Belt</i>). En esa franja se concentraron las plantaciones de algodón y la población esclavizada en 1860; en 2010 la mayoría de la población negra seguía viviendo ahí, y en 2020 esos condados votaron mayoritariamente al Partido Demócrata.</p>
+          <p>La relación ya había sido señalada por el biólogo marino Craig McClain en 2012, para una franja de condados de varios estados del sur. Los mapas muestran coincidencias espaciales a lo largo del tiempo; cada paso de la cadena se apoya en investigaciones históricas, no solo en la superposición de los mapas.</p>
+          <ol class="referencias">
+            <li>Starkey Comics, <a href="https://starkeycomics.com/2021/06/11/how-a-coastline-100-million-years-ago-influences-modern-election-results-in-alabama/">«How a coastline 100 million years ago influences modern election results in Alabama»</a>, 11 de junio de 2021.</li>
+            <li>Craig McClain, <a href="https://craigmcclain.com/?p=326">«How presidential elections are impacted by a 100 million year old coastline»</a>, 12 de octubre de 2012 (versión de una nota publicada en <i>Deep-Sea News</i> en junio de 2012).</li>
+            <li>Smithsonian Magazine, <a href="https://www.smithsonianmag.com/smart-news/obama-could-win-2012-because-the-south-used-to-be-underwater-28850/">«Obama could win 2012 because the South used to be underwater»</a>, 2012.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pantalla" id="vgg">
+    <div class="hoja ancha">
+      <p class="rubro">Tablas que dibujan un mapa</p>
+      <div class="item">
+        <h2>El cuadro tarifario del Expreso VGG (Gran Rosario)</h2>
+        <div>
+        <figure class="lamina">
+          <a class="ampliar" href="assets/img/cuadro-expreso-vgg-2026.jpg" target="_blank" rel="noopener"><img src="assets/img/cuadro-expreso-vgg-2026.jpg" alt="Hoja pegada en el vidrio de un colectivo con el cuadro tarifario SUBE de la línea Expreso VGG desde el 8 de mayo de 2026: tres tablas triangulares con los precios entre diez localidades." width="642" height="856" loading="lazy" style="max-height:60vh"></a>
+          <figcaption>Cuadro tarifario pegado en un colectivo de la línea, mayo de 2026. Foto: La Capital.</figcaption>
+        </figure>
+        <figure class="lamina">
+          <div class="tabla-caja"><table class="datos tarifas" id="t-vgg"></table></div>
+          <figcaption>Tarifa normal con SUBE, en pesos, transcripta de la foto. Cuanto más oscuro el fondo, más caro el viaje.</figcaption>
+        </figure>
+        <figure class="lamina">
+          <iframe class="mapa" title="Mapa del corredor entre Andino y Villa Gobernador Gálvez" src="https://www.openstreetmap.org/export/embed.html?bbox=-61.02%2C-33.08%2C-60.55%2C-32.62&amp;layer=mapnik" loading="lazy"></iframe>
+          <figcaption>El corredor de Andino a Villa Gobernador Gálvez. <a href="https://www.openstreetmap.org/#map=10/-32.85/-60.78">Ver en OpenStreetMap</a>. © colaboradores de OpenStreetMap.</figcaption>
+        </figure>
+        </div>
+        <div class="relato">
+          <p>Los colectivos interurbanos del Gran Rosario llevan pegado un cuadro con el precio del boleto entre cada par de localidades. La línea Expreso VGG une Andino, al norte, con Villa Gobernador Gálvez, al sur de Rosario, pasando por La Ribera, Timbúes, Puerto General San Martín, San Lorenzo, Fray Luis Beltrán, Capitán Bermúdez, Granadero Baigorria y Rosario.</p>
+          <p>Como el viaje de ida y el de vuelta cuestan lo mismo, se completa solo la mitad del cuadro. El precio crece con la distancia: las localidades aparecen en el cuadro en el mismo orden que en el mapa, y la diferencia de precio entre dos de ellas da una idea de cuánto las separa. El boleto mínimo, $2.100, se repite entre localidades vecinas.</p>
+          <p>El cuadro rige desde el 8 de mayo de 2026 y tiene tres bloques: tarifa normal con SUBE, 50 % (escolar y seguro) y atributo social.</p>
+          <ol class="referencias">
+            <li>La Capital, <a href="https://www.lacapital.com.ar/la-ciudad/llego-el-aumento-del-transporte-interurbano-del-gran-rosario-cuanto-cuesta-el-boleto-n10258250.html">«Llegó el aumento del transporte interurbano del Gran Rosario: cuánto cuesta el boleto»</a>, mayo de 2026 (foto del cuadro).</li>
+            <li>Mapa: <a href="https://www.openstreetmap.org/copyright">© colaboradores de OpenStreetMap</a>, licencia ODbL.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pantalla" id="miyake">
+    <div class="hoja ancha">
+      <p class="rubro">Tablas que dibujan un mapa</p>
+      <div class="item">
+        <h2>Un colectivo que da la vuelta a una isla (Miyake-jima, Japón)</h2>
+        <div>
+        <figure class="lamina">
+          <a class="ampliar" href="assets/img/cuadro-miyake-2014.jpg" target="_blank" rel="noopener"><img src="assets/img/cuadro-miyake-2014.jpg" alt="Cuadro tarifario triangular en japonés con unas cuarenta paradas de colectivo y precios en yenes entre 110 y 950, con flechas que indican los dos sentidos de giro." width="2400" height="1697" loading="lazy"></a>
+          <figcaption>«Cuadro triangular de tarifas del colectivo de línea», vigente desde el 1 de abril de 2014, en yenes. Municipio de Miyake.</figcaption>
+        </figure>
+        <figure class="lamina">
+          <iframe class="mapa" title="Mapa de la isla de Miyake-jima" src="https://www.openstreetmap.org/export/embed.html?bbox=139.46%2C34.03%2C139.60%2C34.13&amp;layer=mapnik" loading="lazy"></iframe>
+          <figcaption>Miyake-jima. <a href="https://www.openstreetmap.org/#map=13/34.08/139.53">Ver en OpenStreetMap</a>. © colaboradores de OpenStreetMap.</figcaption>
+        </figure>
+        </div>
+        <div class="relato">
+          <p>Miyake-jima es una isla volcánica de las islas Izu, a unos 180 km de Tokio, con una costa casi circular de 38 km y unos 8 km de diámetro. Dos líneas de colectivo hacen las mismas paradas alrededor de la isla, una en sentido horario y otra en sentido antihorario.</p>
+          <p>El cuadro de tarifas es triangular, como el de Rosario, pero en una ruta circular entre dos paradas se puede ir por un lado o por el otro de la isla, y el precio depende del recorrido. El propio cuadro explica cómo leerlo: desde cada parada, hacia la derecha se lee el precio de la vuelta en un sentido (左回り) y hacia abajo, el del otro (右回り). Las tarifas van de 110 a 950 yenes.</p>
+          <p>Las paradas en negrita son las que tienen tarifa propia; para subir o bajar en las demás se toma la parada con tarifa más cercana por fuera del tramo.</p>
+          <ol class="referencias">
+            <li>Municipio de Miyake, <a href="https://www.vill.miyake.tokyo.jp/iryou_shinryoujo/files/sannkakuunnchinn.pdf">«路線バス三角運賃表»</a> (cuadro triangular de tarifas del colectivo de línea), 2014.</li>
+            <li>Wikipedia, <a href="https://en.wikipedia.org/wiki/Miyake-jima">«Miyake-jima»</a>.</li>
+            <li>Mapa: <a href="https://www.openstreetmap.org/copyright">© colaboradores de OpenStreetMap</a>, licencia ODbL.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pantalla" id="wald">
+    <div class="hoja ancha">
+      <p class="rubro">Lo que falta revela lo que pasó</p>
+      <div class="item">
+        <h2>Abraham Wald y los aviones que no volvieron</h2>
+        <div>
+        <figure class="lamina">
+          <img src="assets/img/wald-avion.webp" alt="Silueta de un bombardero bimotor visto desde arriba, con puntos rojos en las alas, el centro del fuselaje y la cola, y sin puntos en los motores, la cabina ni la parte trasera del fuselaje." width="1400" height="1043" loading="lazy">
+          <figcaption>Ilustración moderna de impactos en aviones que regresaron. No proviene de los memorandos de Wald. McGeddon, <a href="https://commons.wikimedia.org/wiki/File:Survivorship-bias.png">Wikimedia Commons</a>, CC BY-SA 4.0.</figcaption>
+        </figure>
+        <figure class="lamina">
+          <div class="tabla-caja">
+            <table class="datos">
+              <thead><tr><th>Parte</th><th class="num">Superficie (%)</th><th class="num">Impactos en los que volvieron (%)</th><th class="num">Probabilidad de caer por un impacto</th></tr></thead>
+              <tbody>
+                <tr class="destacada"><td>Motores</td><td class="num">26,9</td><td class="num">19,3</td><td class="num">0,39</td></tr>
+                <tr><td>Fuselaje</td><td class="num">34,6</td><td class="num">38,6</td><td class="num">0,05</td></tr>
+                <tr><td>Sistema de combustible</td><td class="num">15,4</td><td class="num">15,4</td><td class="num">0,15</td></tr>
+                <tr><td>Otras partes</td><td class="num">23,1</td><td class="num">26,7</td><td class="num">0,02</td></tr>
+                <tr><td>Avión completo</td><td class="num">100</td><td class="num">100</td><td class="num">0,15</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figcaption>Ejemplo numérico hipotético del propio Wald: 202 impactos observados en los aviones que regresaron. Wald, reimpresión CNA, parte V, pp. 63–65.</figcaption>
+        </figure>
+        </div>
+        <div class="relato">
+          <p>Durante la Segunda Guerra Mundial, el matemático Abraham Wald trabajó en el Statistical Research Group de la Universidad de Columbia, que hacía análisis para las fuerzas armadas de los Estados Unidos. En ocho memorandos de 1943 propuso un método para estimar la vulnerabilidad de un avión a partir de los daños de los aviones que sobrevivían.</p>
+          <p>El punto de partida es que solo se pueden inspeccionar los aviones que vuelven. Si una parte recibe menos impactos de los que le corresponderían por su superficie, es porque los aviones alcanzados ahí tienden a no volver. En el ejemplo de la tabla, los motores ocupan el 26,9 % de la superficie pero reciben el 19,3 % de los impactos observados; el cálculo da que un impacto en el motor derriba al avión con probabilidad 0,39, frente a 0,05 en el fuselaje.</p>
+          <p>Los memorandos no se publicaron fuera del ámbito militar hasta que el Center for Naval Analyses los reimprimió en 1980. En ellos no hay dibujos de aviones ni recomendaciones sobre dónde blindar. El relato popular se apoya sobre todo en lo que contó en 1980 W. Allen Wallis, director del grupo: que los militares tendían a proteger las partes que mostraban más impactos en los aviones que volvían.</p>
+          <ol class="referencias">
+            <li>Abraham Wald, <a href="https://apps.dtic.mil/sti/citations/ADA091073"><i>A Reprint of «A Method of Estimating Plane Vulnerability Based on Damage of Survivors»</i></a>, CRC 432, Center for Naval Analyses, julio de 1980. Reúne ocho memorandos de 1943 (SRG Memo 85 a 126).</li>
+            <li>Marc Mangel y Francisco J. Samaniego, <a href="https://doi.org/10.1080/01621459.1984.10478038">«Abraham Wald's Work on Aircraft Survivability»</a>, <i>Journal of the American Statistical Association</i>, 79(386), 1984, pp. 259–267.</li>
+            <li>W. Allen Wallis, «The Statistical Research Group, 1942–1945: Rejoinder», <i>Journal of the American Statistical Association</i>, 75(370), 1980, pp. 334–335.</li>
+            <li>Bill Casselman, <a href="https://www.ams.org/publicoutreach/feature-column/fc-2016-06">«The Legend of Abraham Wald»</a>, Feature Column, American Mathematical Society, junio de 2016.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pantalla" id="diagoras">
+    <div class="hoja ancha">
+      <p class="rubro">Lo que falta revela lo que pasó</p>
+      <div class="item">
+        <h2>Diágoras y las tablillas de los que se salvaron</h2>
+        <figure class="lamina">
+          <img src="assets/img/exvoto-levis-1754.jpg" alt="Pintura votiva: en un río agitado, dos hombres sostienen a una persona junto a un bote volcado mientras otras dos flotan en el agua. Arriba, santa Ana entre nubes y una inscripción en francés." width="1646" height="1006" loading="lazy">
+          <figcaption>Exvoto de Lévis (Quebec), 1754. La inscripción nombra a tres personas «sauvés» (salvadas) y a dos «noyez» (ahogadas) que se encomendaron a santa Ana. Anónimo, Musée national des beaux-arts du Québec. Dominio público, <a href="https://commons.wikimedia.org/wiki/File:Ex-voto_des_trois_naufrages_de_Levis_-_1754.jpg">Wikimedia Commons</a>.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>En <i>Sobre la naturaleza de los dioses</i> (45 a. C.), Cicerón cuenta que Diágoras de Melos, conocido como «el Ateo», llegó a la isla de Samotracia. En el santuario había tablillas pintadas que dejaban como ofrenda quienes se habían salvado de una tormenta en el mar después de rezar a los dioses.</p>
+          <blockquote>«Tú, que crees que los dioses descuidan los asuntos humanos, ¿no ves por tantas tablillas pintadas cuántos escaparon con sus votos a la furia de la tempestad y llegaron sanos y salvos a puerto?». «Así es», respondió, «porque en ninguna parte están pintados los que naufragaron y murieron en el mar».</blockquote>
+          <p>Diógenes Laercio atribuye la misma respuesta a Diógenes el Cínico y aclara que otros se la atribuyen a Diágoras. Francis Bacon retomó el episodio en el <i>Novum Organum</i> (1620) como ejemplo de cómo se recuerdan los casos que confirman una creencia y se pasan por alto los que la contradicen.</p>
+          <ol class="referencias">
+            <li>Cicerón, <i>De natura deorum</i>, III, 89. <a href="https://www.thelatinlibrary.com/cicero/nd3.shtml">Texto latino</a> (The Latin Library); <a href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Cicero/de_Natura_Deorum/3B*.html">traducción inglesa de H. Rackham</a>, Loeb, 1933 (LacusCurtius). La cita en castellano es una traducción propia; ediciones publicadas: <i>Sobre la naturaleza de los dioses</i>, Gredos, 1999; <i>La naturaleza de los dioses</i>, trad. Ángel Escobar, Alianza, 2022.</li>
+            <li>Diógenes Laercio, <i>Vidas de los filósofos ilustres</i>, VI, 59 (<a href="https://en.wikisource.org/wiki/Lives_of_the_Eminent_Philosophers/Book_VI">trad. inglesa de R. D. Hicks</a>, Wikisource).</li>
+            <li>Francis Bacon, <i>Novum Organum</i>, 1620, libro I, aforismo 46.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="challenger">
+    <div class="hoja ancha">
+      <p class="rubro">Lo que falta revela lo que pasó</p>
+      <div class="item">
+        <h2>Challenger: los vuelos que quedaron afuera del gráfico</h2>
+        <div>
+        <figure class="lamina">
+          <a class="ampliar" href="assets/img/rogers-figuras-6-7.jpg" target="_blank" rel="noopener"><img src="assets/img/rogers-figuras-6-7.jpg" alt="Dos gráficos de incidentes en los aros de sellado según la temperatura de la junta. Arriba, solo los siete vuelos con incidentes, repartidos entre 53 y 75 grados Fahrenheit. Abajo, los mismos más los vuelos sin incidentes, todos entre 66 y 81 grados." width="921" height="1317" loading="lazy"></a>
+          <figcaption>Figuras 6 y 7 del informe de la Comisión Presidencial sobre el accidente del Challenger, vol. I, p. 146 (1986). Arriba, solo los vuelos con incidentes; abajo, también los vuelos sin incidentes. Dominio público.</figcaption>
+        </figure>
+        <figure class="lamina">
+          <div class="grafico-lineas" id="g-challenger"></div>
+          <figcaption>Los mismos 23 vuelos en grados Celsius, con la temperatura prevista para el lanzamiento. Datos: Dalal, Fowlkes y Hoadley (1989), tabla 1. La figura de la Comisión pone 3 incidentes en el vuelo 51-C porque cuenta también un aro secundario.</figcaption>
+        </figure>
+        </div>
+        <div class="relato">
+          <p>La noche del 27 de enero de 1986, ingenieros de Morton Thiokol, la empresa que fabricaba los propulsores, y responsables de la NASA discutieron si el frío afectaba a los aros de sellado (<i>O-rings</i>) de las juntas. El pronóstico para la hora del lanzamiento era de 31 °F (−0,6 °C). El vuelo anterior más frío había despegado con la junta a 53 °F (11,7 °C).</p>
+          <p>Según la Comisión Rogers, que investigó el accidente, en esa discusión se compararon con la temperatura solo los vuelos en los que se había observado daño en los aros. Vistos así, los incidentes aparecían repartidos entre 53 °F y 75 °F, sin un patrón. Con todos los vuelos, la comparación cambia: los cuatro vuelos con la junta a 63 °F (17 °C) o menos tuvieron daño; de los que despegaron a 66 °F (19 °C) o más, solo tres.</p>
+          <p>El Challenger despegó el 28 de enero con 36 °F (2,2 °C) de temperatura ambiente y se desintegró 73 segundos después. La Comisión concluyó que la falla empezó en una junta del propulsor derecho y que «un análisis cuidadoso de la historia de vuelos» habría revelado la relación entre el daño en los aros y la baja temperatura.</p>
+          <ol class="referencias">
+            <li>Presidential Commission on the Space Shuttle Challenger Accident, <i>Report</i>, vol. I, 1986: <a href="https://history.nasa.gov/rogersrep/v1ch3.htm">cap. III</a> (temperatura en el lanzamiento, p. 19), <a href="https://history.nasa.gov/rogersrep/v1ch4.htm">cap. IV</a> y <a href="https://history.nasa.gov/rogersrep/v1ch6.htm">cap. VI, «An Accident Rooted in History»</a> (pp. 145–148, figuras 6 y 7).</li>
+            <li>Siddhartha R. Dalal, Edward B. Fowlkes y Bruce Hoadley, <a href="https://doi.org/10.1080/01621459.1989.10478858">«Risk Analysis of the Space Shuttle: Pre-Challenger Prediction of Failure»</a>, <i>Journal of the American Statistical Association</i>, 84(408), 1989, pp. 945–957, tabla 1.</li>
+            <li>Edward Tufte, <i>Visual Explanations</i>, Graphics Press, 1997, cap. 2; y la crítica de Robert Kosara, <a href="https://eagereyes.org/criticism/tufte-and-the-truth-about-the-challenger">«Tufte and the truth about the Challenger»</a>, 2011.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="indec">
+    <div class="hoja ancha">
+      <p class="rubro">Cuando se deja de publicar</p>
+      <div class="item">
+        <h2>Argentina: la pobreza sin cifra oficial</h2>
+        <figure class="lamina">
+          <div class="grafico-lineas" id="g-indec"></div>
+          <figcaption>Personas bajo la línea de pobreza, por semestre (aglomerados urbanos de la EPH). Las dos series del INDEC usan metodologías distintas y no son comparables entre sí ni con la de la UCA, que es anual y usa otra encuesta.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>Entre 2003 y 2013 el INDEC publicó cada semestre el porcentaje de personas bajo la línea de pobreza. El 29 de octubre de 2013 publicó el del primer semestre de ese año: 4,7 %. El del segundo semestre, previsto para el 23 de abril de 2014, no se publicó. Al día siguiente el jefe de Gabinete, Jorge Capitanich, lo atribuyó a «severas carencias metodológicas» y a la «imposibilidad de empalme» con el nuevo índice de precios.</p>
+          <p>En marzo de 2015 el ministro de Economía, Axel Kicillof, dijo en una entrevista radial que no tenía «el número de pobres» y que publicarlo le parecía «un poco estigmatizante». Mientras tanto circularon estimaciones privadas, como la del Observatorio de la Deuda Social de la UCA.</p>
+          <p>El INDEC retomó la publicación el 28 de septiembre de 2016, con una metodología nueva: 32,2 % de las personas en el segundo trimestre de 2016. En ese informe indicó que las series publicadas entre 2007 y 2015 «deben ser consideradas con reservas». En 2007-II tampoco hay dato: ese semestre no se relevaron cuatro aglomerados, entre ellos el Gran Buenos Aires.</p>
+          <ol class="referencias">
+            <li>INDEC, <a href="https://www.indec.gob.ar/ftp/cuadros/sociedad/sh_pobrezaeindigencia_continua.xls">serie histórica de pobreza e indigencia, EPH continua</a>; <a href="https://www.indec.gob.ar/ftp/cuadros/sociedad/pob_tot_1sem13.pdf">informe del primer semestre de 2013</a>, 29 de octubre de 2013.</li>
+            <li>INDEC, <a href="https://www.indec.gob.ar/uploads/informesdeprensa/eph_pobreza_01_16.pdf">«Incidencia de la pobreza y de la indigencia», segundo trimestre de 2016</a>, 28 de septiembre de 2016; <a href="https://www.indec.gob.ar/ftp/cuadros/sociedad/cuadros_informe_pobreza_09_26.xls">cuadros de la serie actual</a>, primer semestre de 2026.</li>
+            <li>MercoPress, <a href="https://en.mercopress.com/2014/04/24/argentine-government-cancels-releases-on-poverty-and-indigence">«Argentine government cancels releases on poverty and indigence»</a>, 24 de abril de 2014; El Cronista, <a href="https://www.cronista.com/economia-politica/el-gobierno-justifico-que-no-dio-a-conocer-los-indices-de-pobreza-e-indigencia-por-problemas-metodologicos">«El Gobierno justificó que no dio a conocer los índices de pobreza e indigencia por problemas metodológicos»</a>.</li>
+            <li>La Nación, <a href="https://www.lanacion.com.ar/economia/kicillof-no-quiere-hablar-del-numero-de-pobres-porque-dice-que-los-estigmatiza-nid1779477/">«Kicillof no quiere hablar del número de pobres porque dice que los estigmatiza»</a>, marzo de 2015.</li>
+            <li>Observatorio de la Deuda Social Argentina (UCA), <a href="https://repositorio.uca.edu.ar/bitstream/123456789/21794/1/pobreza-desigualdad-y-escenario-laboral-en-la-argentina-urbana-2010-2015.pdf">«Pobreza, desigualdad y escenario laboral en la Argentina urbana 2010-2015»</a>, junio de 2016.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="censo">
+    <div class="hoja ancha">
+      <p class="rubro">Cuando se deja de publicar</p>
+      <div class="item">
+        <h2>URSS: el censo que dio menos de lo anunciado</h2>
+        <figure class="lamina">
+          <div class="tabla-caja">
+            <table class="datos">
+              <thead><tr><th>Cifra</th><th class="num">Población</th></tr></thead>
+              <tbody>
+                <tr><td>Censo de 1926</td><td class="num">147,0 millones</td></tr>
+                <tr><td>Anunciada por Stalin en el XVII Congreso (26 de enero de 1934), para fines de 1933</td><td class="num">168 millones</td></tr>
+                <tr><td>Esperada para 1937 según el registro de nacimientos y muertes</td><td class="num">170 a 172 millones</td></tr>
+                <tr class="destacada"><td>Censo del 6 de enero de 1937 (anulado)</td><td class="num">162,0 millones</td></tr>
+                <tr><td>Censo de 1939</td><td class="num">170,6 millones</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figcaption>Los resultados de 1937 permanecieron reservados hasta 1990.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>El 6 de enero de 1937 se hizo un censo de población en la Unión Soviética. Contó 162 millones de personas. Tres años antes, Stalin había anunciado ante el XVII Congreso del partido que la población había llegado a 168 millones, y el registro corriente de nacimientos y muertes hacía esperar unos 170 millones.</p>
+          <p>En los meses siguientes fueron arrestados los responsables. Iván Kraval, jefe de la administración estadística, fue detenido el 31 de mayo de 1937 y fusilado el 26 de septiembre; Olimpi Kvitkin, jefe de la oficina del censo, fue fusilado el 28. El 25 de septiembre un decreto anuló el censo por haberse hecho «con la más grosera violación de los fundamentos elementales de la ciencia estadística». La comisión que lo revisó lo calificó de sabotaje destinado a «probar la mentira fascista» sobre muertes por hambre en la URSS.</p>
+          <p>Un nuevo censo, en 1939, dio 170,6 millones. Los resultados de 1937 se publicaron recién en 1990. Se considera que el déficit refleja, entre otras causas, las muertes de la hambruna de 1932–1933.</p>
+          <ol class="referencias">
+            <li>Wikipedia, <a href="https://en.wikipedia.org/wiki/1937_Soviet_census">«1937 Soviet census»</a> y <a href="https://ru.wikipedia.org/wiki/%D0%9F%D0%B5%D1%80%D0%B5%D0%BF%D0%B8%D1%81%D1%8C_%D0%BD%D0%B0%D1%81%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F_%D0%A1%D0%A1%D0%A1%D0%A0_1937_%D0%B3%D0%BE%D0%B4%D0%B0">«Перепись населения СССР 1937 года»</a>.</li>
+            <li>J. Stalin, <a href="https://www.marxists.org/reference/archive/stalin/works/1934/01/26.htm">informe al XVII Congreso del PCUS</a>, 26 de enero de 1934.</li>
+            <li>Museo de Estadística de Rusia, <a href="https://statmuseum.ru/en/cbook/statistics-today/censuses-on-the-brink-of-the-war">«Censuses on the brink of the war»</a>; Seventeen Moments in Soviet History, <a href="https://soviethistory.msu.edu/1939/lost-census/">«The Lost Census»</a>.</li>
+            <li>Открытый список, fichas de <a href="https://ru.openlist.wiki/%D0%9A%D1%80%D0%B0%D0%B2%D0%B0%D0%BB%D1%8C_%D0%98%D0%B2%D0%B0%D0%BD_%D0%90%D0%B4%D0%B0%D0%BC%D0%BE%D0%B2%D0%B8%D1%87_(1897)">I. A. Kraval</a> y <a href="https://ru.openlist.wiki/%D0%9A%D0%B2%D0%B8%D1%82%D0%BA%D0%B8%D0%BD_%D0%9E%D0%BB%D0%B8%D0%BC%D0%BF%D0%B8%D0%B9_%D0%90%D1%80%D0%B8%D1%81%D1%82%D0%B0%D1%80%D1%85%D0%BE%D0%B2%D0%B8%D1%87_(1874)">O. A. Kvitkin</a>.</li>
+            <li>ROII, <a href="https://roii.ru/dialogue/41/roii-dialogue-41_15.pdf">artículo sobre el censo de 1937</a> (texto del decreto y de la comisión, nota 7).</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="urss">
+    <div class="hoja ancha">
+      <p class="rubro">Cuando se deja de publicar</p>
+      <div class="item">
+        <h2>URSS: la mortalidad infantil que dejó de publicarse</h2>
+        <figure class="lamina">
+          <div class="grafico-lineas" id="g-urss"></div>
+          <figcaption>Muertes de menores de un año por cada 1000 nacidos vivos. Las cifras soviéticas usaban una definición más restrictiva que la de la OMS.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>La oficina de estadística soviética publicaba cada año la tasa de mortalidad infantil. En 1971 llegó a su mínimo, 22,9 por mil; en 1974 había subido a 27,9. Fue el último dato publicado: desde 1975 la tasa dejó de aparecer en los anuarios, igual que la esperanza de vida.</p>
+          <p>En 1980, en un informe de la Oficina del Censo de los Estados Unidos, Christopher Davis y Murray Feshbach estimaron a partir de datos regionales dispersos que la tasa había seguido subiendo y era de unos 31 por mil en 1976. Otros investigadores sostuvieron que parte del aumento se debía a un mejor registro de las muertes en Asia Central.</p>
+          <p>La publicación se retomó a partir de 1986, con la apertura informativa. Los valores que se conocieron entonces muestran que la tasa llegó a 31,4 en 1976 y recién volvió por debajo de 24 a fines de los años ochenta.</p>
+          <ol class="referencias">
+            <li>Christopher Davis y Murray Feshbach, <a href="https://catalog.hathitrust.org/Record/007402201"><i>Rising Infant Mortality in the U.S.S.R. in the 1970's</i></a>, U.S. Bureau of the Census, serie P-95, n.º 74, 1980; reseña en <a href="https://wilsonquarterly-legacy-attachments.s3.amazonaws.com/research-reports-9.pdf"><i>The Wilson Quarterly</i></a>, verano de 1980.</li>
+            <li>Nick Eberstadt, <a href="https://www.nybooks.com/articles/1981/02/19/the-health-crisis-in-the-ussr/">«The Health Crisis in the USSR»</a>, <i>The New York Review of Books</i>, 19 de febrero de 1981.</li>
+            <li>Barbara A. Anderson y Brian D. Silver, <a href="https://doi.org/10.2307/1973432">«Infant mortality in the Soviet Union: regional differences and measurement issues»</a>, <i>Population and Development Review</i>, 12(4), 1986, pp. 705–737.</li>
+            <li>Michael Ryan, <a href="https://pubmed.ncbi.nlm.nih.gov/3130941/">«Life expectancy and mortality data from the Soviet Union»</a>, <i>BMJ</i>, 1988; Elizabeth Brainerd, <a href="https://web.williams.edu/Economics/brainerd/papers/ussr_july08.pdf">«Reassessing the standard of living in the Soviet Union»</a>, 2008.</li>
+            <li>Valores 1975–1990: N. N. Vaganov, <a href="https://rdkb.ru/files/file2032.pdf"><i>Детская больница</i>, 2013, n.º 1</a>; 1960–1974: Gran Enciclopedia Soviética, <a href="https://dic.academic.ru/dic.nsf/bse/129063/%D0%A1%D0%A1%D0%A1%D0%A0">«СССР. Население»</a>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="china">
+    <div class="hoja ancha">
+      <p class="rubro">Cuando se deja de publicar</p>
+      <div class="item">
+        <h2>China: el desempleo juvenil que dejó de publicarse</h2>
+        <figure class="lamina">
+          <div class="grafico-lineas" id="g-china"></div>
+          <figcaption>Tasa de desempleo urbano de las personas de 16 a 24 años, mensual, según la Oficina Nacional de Estadísticas de China. Las dos series usan definiciones distintas y no son comparables.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>La Oficina Nacional de Estadísticas de China (NBS) publicaba cada mes la tasa de desempleo urbano de las personas de 16 a 24 años. En junio de 2023 llegó a 21,3 %, el valor más alto de la serie.</p>
+          <p>El 15 de agosto de 2023 el vocero de la NBS, Fu Linghui, anunció que se suspendía la publicación de las tasas por edad mientras se revisaba la metodología, en particular si correspondía contar a los estudiantes que buscan trabajo. El dato de julio no se publicó.</p>
+          <p>El 17 de enero de 2024 la NBS volvió a publicar la tasa con una definición que excluye a los estudiantes, que según la propia NBS eran más del 60 % de la población urbana de esa edad. El primer valor, el de diciembre de 2023, fue 14,9 %. La tasa general de desempleo urbano se siguió publicando todo el tiempo.</p>
+          <ol class="referencias">
+            <li>The China Project, <a href="https://thechinaproject.com/2023/08/15/china-will-no-longer-publish-bad-youth-unemployment-data/">«China will no longer publish bad youth unemployment data»</a>, 15 de agosto de 2023; RTÉ, <a href="https://www.rte.ie/news/business/2023/0815/1399794-china-halts-youth-jobless-figures-as-economy-weakens">«China halts youth jobless figures as economy weakens»</a>, 15 de agosto de 2023.</li>
+            <li>Oficina Nacional de Estadísticas de China, <a href="https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202401/t20240117_1946644.html">nota sobre la nueva medición del desempleo por edad</a>, 17 de enero de 2024; Bloomberg, <a href="https://www.bloomberg.com/news/articles/2024-01-17/china-says-youth-employment-hit-14-9-in-dec-excluding-students">«China says youth unemployment hit 14.9% in Dec excluding students»</a>, 17 de enero de 2024.</li>
+            <li>Series mensuales: Wikipedia, <a href="https://en.wikipedia.org/wiki/Unemployment_in_China">«Unemployment in China»</a> (con datos de la NBS); Straits Times, <a href="https://datawrapper.dwcdn.net/13k9R/3/">gráfico con datos de la NBS</a>; <a href="https://tradingeconomics.com/china/youth-unemployment-rate">Trading Economics</a> (2025 y 2026).</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="india">
+    <div class="hoja ancha">
+      <p class="rubro">Cuando se deja de publicar</p>
+      <div class="item">
+        <h2>India: la encuesta de consumo que no se publicó</h2>
+        <figure class="lamina">
+          <div class="tabla-caja">
+            <table class="datos">
+              <thead><tr><th>Gasto mensual por persona</th><th class="num">2011-12</th><th class="num">2017-18</th><th class="num">Variación</th></tr></thead>
+              <tbody>
+                <tr class="destacada"><td>Total</td><td class="num">1.501</td><td class="num">1.446</td><td class="num">−3,7 %</td></tr>
+                <tr><td>Zonas rurales</td><td class="num">1.217</td><td class="num">1.110</td><td class="num">−8,8 %</td></tr>
+                <tr><td>Zonas urbanas</td><td class="num">2.212</td><td class="num">2.256</td><td class="num">+2,0 %</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figcaption>Rupias a precios de 2009-10. Resultados de 2017-18 publicados por la prensa; la encuesta nunca se publicó oficialmente.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>La Oficina Nacional de Estadística de la India hace periódicamente una encuesta de gasto de consumo de los hogares. Es la base para medir la pobreza y la desigualdad, y se usa para actualizar el índice de precios y las cuentas nacionales. La de 2017-18 había sido aprobada para su publicación en junio de 2019.</p>
+          <p>El 15 de noviembre de 2019 el diario <i>Business Standard</i> publicó sus resultados: descontada la inflación, el gasto mensual por persona había caído 3,7 % desde 2011-12, la primera caída desde 1972-73. Ese mismo día el Ministerio de Estadística anunció que no publicaría la encuesta «en vista de los problemas de calidad de los datos».</p>
+          <p>La siguiente encuesta se hizo en 2022-23, con otra metodología. La serie oficial pasa de 2011-12 a 2022-23 sin el dato de 2017-18.</p>
+          <ol class="referencias">
+            <li>Business Standard, <a href="https://business-standard.com/article/economy-policy/govt-scraps-nso-s-consumer-expenditure-survey-over-data-quality-119111501838_1.html">«Govt scraps NSO's consumer expenditure survey over 'data quality'»</a>, 15 de noviembre de 2019.</li>
+            <li>The Week, <a href="https://www.theweek.in/news/biz-tech/2019/11/15/govt-says-it-withheld-consumer-spending-survey-over-data-quality-issues.html">«Govt says it withheld consumer spending survey over data quality issues»</a>, 15 de noviembre de 2019; The Quint, <a href="https://www.thequint.com/news/business/consumer-spends-down-first-time-in-40-years-poverty-levels-up-nso-data">«Consumer spends down first time in 40 years»</a>.</li>
+            <li>Ministry of Statistics and Programme Implementation, <a href="https://mospi.gov.in/sites/default/files/publication_reports/Factsheet_HCES_2022-23.pdf">«Household Consumption Expenditure Survey 2022-23: Fact Sheet»</a>, febrero de 2024.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="venezuela">
+    <div class="hoja ancha">
+      <p class="rubro">Cuando se deja de publicar</p>
+      <div class="item">
+        <h2>Venezuela: la inflación que se conoció años después</h2>
+        <figure class="lamina">
+          <div class="tabla-caja">
+            <table class="datos">
+              <thead><tr><th>Año</th><th class="num">BCV (%)</th><th>Cuándo se conoció la cifra del BCV</th><th class="num">Asamblea Nacional (%)</th></tr></thead>
+              <tbody>
+                <tr><td>2014</td><td class="num">68,5</td><td>febrero de 2015</td><td class="num">—</td></tr>
+                <tr><td>2015</td><td class="num">180,9</td><td>febrero de 2016</td><td class="num">—</td></tr>
+                <tr class="destacada"><td>2016</td><td class="num">274,4</td><td>mayo de 2019 (trascendió en 2017 por datos enviados al FMI)</td><td class="num">≈ 550</td></tr>
+                <tr class="destacada"><td>2017</td><td class="num">862,6</td><td>mayo de 2019</td><td class="num">2.616</td></tr>
+                <tr class="destacada"><td>2018</td><td class="num">130.060,2</td><td>mayo de 2019</td><td class="num">1.698.488,2</td></tr>
+                <tr><td>2019</td><td class="num">9.585,5</td><td>febrero de 2020</td><td class="num">7.374,4</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figcaption>Inflación de diciembre a diciembre. Las cifras de la Asamblea Nacional no son oficiales; la de 2016 es una estimación de uno de sus diputados.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>El Banco Central de Venezuela (BCV) está obligado por ley a publicar el índice de precios al consumidor en los primeros días de cada mes. En 2015 empezó a publicarlo con meses de atraso y, después del dato anual de 2015 (180,9 %), conocido en febrero de 2016, dejó de publicarlo.</p>
+          <p>Durante ese período la Asamblea Nacional, con mayoría opositora desde 2016, elaboró su propio índice. El 28 de mayo de 2019 el BCV subió a su sitio, sin anuncio, las cifras de 2016, 2017 y 2018: 274,4 %, 862,6 % y 130.060 %.</p>
+          <p>Después de septiembre de 2019 el BCV volvió a interrumpir la publicación hasta febrero de 2020, cuando dio a conocer la inflación de 2019.</p>
+          <ol class="referencias">
+            <li>Banco Central de Venezuela, <a href="https://www.bcv.org.ve/sites/default/files/precios_consumidor/4_5_7.xls">«Índice nacional de precios al consumidor desde 2008»</a> (base diciembre de 2007 = 100).</li>
+            <li>La Patilla, <a href="https://lapatilla.com/2015/10/10/el-bcv-cumple-nueve-meses-sin-publicar-la-cifra-de-inflacion/">«El BCV cumple nueve meses sin publicar la cifra de inflación»</a>, 10 de octubre de 2015.</li>
+            <li>CNBC, <a href="https://www.cnbc.com/2019/05/30/venezuela-reports-sharp-gdp-contraction-in-rare-release-of-data.html">«Venezuela reports sharp GDP contraction in rare release of data»</a>, 30 de mayo de 2019.</li>
+            <li>Asamblea Nacional: Blu Radio, <a href="https://www.bluradio.com/mundo/parlamento-venezolano-estima-que-inflacion-de-2016-en-venezuela-fue-del-550">2016</a>; Voz de América, <a href="https://www.vozdeamerica.com/a/venezuela-finanzas-economia-inflacion-pib-2016/4198425.html">2017</a>; El Mostrador, <a href="https://www.elmostrador.cl/mercados/2019/01/09/venezuela-cerro-2018-con-inflacion-de-casi-1-700-000">2018</a>; El Mercurio (Ecuador), <a href="https://elmercurio.com.ec/actualidad/2020/01/13/la-inflacion-de-venezuela-en-2019-supero-el-7-000-segun-el-parlamento">2019</a>.</li>
+            <li>Portafolio, <a href="https://www.portafolio.co/internacional/inflacion-en-venezuela-cerro-2019-en-9-585-5-537800">«Inflación en Venezuela cerró 2019 en 9.585,5 %»</a>, febrero de 2020.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="covid">
+    <div class="hoja ancha">
+      <p class="rubro">Los grises del mapa</p>
+      <div class="item">
+        <h2>COVID-19: cero casos o ningún dato</h2>
+        <figure class="lamina">
+          <div class="tabla-caja">
+            <table class="datos">
+              <thead><tr><th>País</th><th>Qué figura en la base de la OMS</th><th>Fechas</th></tr></thead>
+              <tbody>
+                <tr><td>Turkmenistán</td><td>0 casos y 0 muertes acumulados durante toda la pandemia. Nunca informó un caso.</td><td>Enero de 2020 a septiembre de 2026</td></tr>
+                <tr><td>Corea del Norte</td><td>0 casos confirmados. Desde mayo de 2022 informó por su cuenta unos 4,77 millones de casos de «fiebre» y 74 muertes, sin precisar cuántos eran COVID-19.</td><td>Primer brote admitido: 12 de mayo de 2022. Declaró la «victoria» el 10 de agosto de 2022.</td></tr>
+                <tr><td>Tanzania</td><td>Último dato oficial: 509 casos y 21 muertes. Retomó la información en junio de 2021; el acumulado final es de 43.655 casos y 846 muertes.</td><td>Sin datos entre el 8 de mayo de 2020 y el 28 de junio de 2021</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figcaption>Datos de la Organización Mundial de la Salud (casos y muertes informados por cada país), consultados en octubre de 2026.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>Durante la pandemia, la OMS publicó los casos y muertes que le informaba cada gobierno. Turkmenistán nunca informó un caso. Corea del Norte informó cero casos hasta mayo de 2022, cuando admitió un brote de ómicron y empezó a difundir cifras de «fiebre» sin confirmar. Tanzania dejó de informar en mayo de 2020 y retomó en junio de 2021, tras la muerte del presidente John Magufuli y la asunción de Samia Suluhu Hassan.</p>
+          <p>El tablero de la OMS no distinguía entre los países que informaban cero casos y los que no enviaban datos. En la base de Our World in Data, Turkmenistán y Corea del Norte figuran con 0 casos acumulados y no como dato faltante. En un mapa coloreado por casos, los dos se ven igual que un país sin contagios.</p>
+          <ol class="referencias">
+            <li>Organización Mundial de la Salud, <a href="https://srhdpeuwpubsa.blob.core.windows.net/whdh/COVID/WHO-COVID-19-global-data.csv">datos globales de COVID-19</a> (archivo semanal; el diario está en la misma carpeta como <code>WHO-COVID-19-global-daily-data.csv</code>).</li>
+            <li>CNN, <a href="https://www.cnn.com/2021/03/05/world/covid-tanzania-turkmenistan-north-korea-intl">«The countries making dubious claims over Covid-19»</a>, 5 de marzo de 2021.</li>
+            <li>VOA, <a href="https://www.voanews.com/amp/north-korea-officially-reports-first-covid-19-outbreak-/6568043.html">«North Korea officially reports first COVID-19 outbreak»</a>, 12 de mayo de 2022; Daily Maverick/Reuters, <a href="https://www.dailymaverick.co.za/article/2022-08-11-north-korea-declares-victory-over-covid-19-reveals-kim-suffered-fever/">«North Korea declares victory over COVID-19»</a>, 11 de agosto de 2022.</li>
+            <li>The Citizen, <a href="https://thecitizen.co.tz/tanzania/news/tanzania-makes-covid-19-statistics-public-for-the-time-in-over-a-year-3453900">«Tanzania makes Covid-19 statistics public for the first time in over a year»</a>, junio de 2021.</li>
+            <li>Our World in Data, <a href="https://ourworldindata.org/grapher/weekly-covid-deaths">«Weekly confirmed COVID-19 deaths»</a> y <a href="https://catalog.ourworldindata.org/garden/covid/latest/compact/compact.csv">base compacta</a>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="lancet">
+    <div class="hoja ancha">
+      <p class="rubro">Los grises del mapa</p>
+      <div class="item">
+        <h2>Los que no aparecen en ningún registro</h2>
+        <figure class="lamina">
+          <div class="cifras">
+            <div><p class="cifra-chica">36 %</p><p>de los nacimientos del mundo no se registraban: 48,3 millones de 133 millones (2003).</p></div>
+            <div><p class="cifra-chica">55 %</p><p>en el África subsahariana y 63 % en el sur de Asia; 2 % en los países industrializados.</p></div>
+            <div><p class="cifra-chica">50 %</p><p>de los países de África y el Sudeste asiático no registraba ninguna causa de muerte.</p></div>
+            <div><p class="cifra-chica">2 de 45</p><p>países de la región africana de la OMS tenían registro civil completo: Mauricio y Seychelles.</p></div>
+          </div>
+          <figcaption>Setel y otros, <i>The Lancet</i>, 2007.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>En 2007 la revista <i>The Lancet</i> publicó la serie «Who Counts?» (¿Quién cuenta?), sobre los sistemas de registro civil y estadísticas vitales. El primer artículo, de Philip Setel y colegas, se tituló «Un escándalo de invisibilidad: hacer que todos cuenten contando a todos».</p>
+          <blockquote>«La mayoría de las personas de África y Asia nacen y mueren sin dejar rastro en ningún registro legal ni en ninguna estadística oficial.»</blockquote>
+          <p>Según el artículo, solo un tercio de los países fuera de América del Norte y Europa podía obtener datos de mortalidad utilizables. Para el resto, buena parte de las cifras de nacimientos, muertes y causas de muerte que aparecen en los informes y mapas internacionales son estimaciones de modelos. Los autores sostienen que esos datos «necesitan medirse, no solo modelarse».</p>
+          <ol class="referencias">
+            <li>Philip W. Setel y otros, <a href="https://www.cghr.org/wordpress/wp-content/uploads/A-scandal-of-invisibility-making-everyone-count-by-counting-everyone-2007.pdf">«Who Counts? 1. A scandal of invisibility: making everyone count by counting everyone»</a>, <i>The Lancet</i>, 370(9598), 2007, pp. 1569–1577. <a href="https://doi.org/10.1016/S0140-6736(07)61307-5">DOI</a>.</li>
+            <li>EurekAlert, <a href="https://eurekalert.org/news-releases/650654">«A scandal of invisibility plagues countries with no civil registries»</a>, 2007.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="eeuu">
+    <div class="hoja ancha">
+      <p class="rubro">Los grises del mapa</p>
+      <div class="item">
+        <h2>Estados Unidos: el mes sin inflación</h2>
+        <figure class="lamina">
+          <div class="grafico-lineas" id="g-eeuu"></div>
+          <figcaption>Variación interanual del índice de precios al consumidor (CPI-U, todos los ítems, sin desestacionalizar), según la Oficina de Estadísticas Laborales (BLS).</figcaption>
+        </figure>
+        <div class="relato">
+          <p>Entre el 1 de octubre y el 12 de noviembre de 2025 el gobierno federal de los Estados Unidos estuvo 43 días sin presupuesto aprobado, el cierre más largo de su historia. La Oficina de Estadísticas Laborales (BLS) no relevó precios ni hizo la encuesta de hogares de octubre.</p>
+          <p>El 21 de noviembre de 2025 la BLS anunció que no publicaría el índice de precios al consumidor de octubre: fue la primera vez que un mes quedó sin publicar. Tampoco hay tasa de desempleo de octubre de 2025. La BLS explicó que reconstruir esos datos después habría sido costoso y potencialmente inexacto.</p>
+          <p>El hueco vuelve a aparecer un año después: como falta el índice de octubre de 2025, la BLS informó que tampoco publicará la variación interanual de octubre de 2026.</p>
+          <ol class="referencias">
+            <li>Bureau of Labor Statistics, <a href="https://www.bls.gov/cpi/additional-resources/2025-federal-government-shutdown-impact-cpi-faq.htm">«2025 Federal Government Shutdown Impact on the CPI: FAQ»</a>, actualizada el 16 de septiembre de 2026.</li>
+            <li>Bureau of Labor Statistics, <a href="https://data.bls.gov/timeseries/CUUR0000SA0?output_view=pct_12mths&amp;from_year=2024&amp;to_year=2026">serie CUUR0000SA0, variación de 12 meses</a>, consultada el 31 de octubre de 2026.</li>
+            <li>Bureau of Labor Statistics, <a href="https://www.bls.gov/news.release/archives/empsit_12162025.htm">«The Employment Situation», 16 de diciembre de 2025</a>: «Household survey data for October 2025 were not collected».</li>
+            <li>Al Jazeera, <a href="https://www.aljazeera.com/news/2025/11/21/us-government-to-nix-october-inflation-report-after-history-making-shutdown">«US government to nix October inflation report after history-making shutdown»</a>, 21 de noviembre de 2025.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="femicidios">
+    <div class="hoja ancha">
+      <p class="rubro">Lo que nadie contaba</p>
+      <div class="item">
+        <h2>Femicidios en la Argentina: primero se contó desde afuera</h2>
+        <figure class="lamina">
+          <div class="grafico-lineas" id="g-femicidios"></div>
+          <figcaption>Femicidios por año. La Casa del Encuentro cuenta femicidios y femicidios vinculados de mujeres y niñas publicados en medios (2008 abarca de enero a octubre; falta 2022 porque no encontramos la cifra anual). La Corte cuenta víctimas directas en causas judiciales y considera consolidada su metodología desde 2017.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>La Casa del Encuentro, una asociación civil de Buenos Aires, publicó en 2008 su primer informe de femicidios en la Argentina «ante la ausencia de estadísticas oficiales». Desde entonces cuenta cada año los casos a partir de las noticias de más de 120 diarios y agencias del país.</p>
+          <p>El 3 de junio de 2015, después del femicidio de Chiara Páez, de 14 años, en Rufino (Santa Fe), se hizo la primera marcha Ni Una Menos, con unas 200.000 personas en Buenos Aires y marchas en otras ciudades.</p>
+          <p>El 25 de noviembre de 2015 la Corte Suprema presentó el primer Registro Nacional de Femicidios de la Justicia Argentina, con datos de 2014. Las dos series no cuentan lo mismo: una registra casos publicados en medios y la otra, causas judiciales.</p>
+          <ol class="referencias">
+            <li>La Casa del Encuentro, <a href="http://www.lacasadelencuentro.org/femicidios02.html">Observatorio de Femicidios «Adriana Marisel Zambrano»</a>; <a href="https://lacasadelencuentro.org/descargas/informe2023-femicidios.pdf">informe 2023</a>. Cifras de otros años en prensa: <a href="https://enredando.org.ar/?p=10835">Enredando</a> (2008-2014), <a href="https://www.ambito.com/politica/en-2016-hubo-290-femicidios-el-pais-y-401-hijos-perdieron-sus-madres-n3973719/amp">Ámbito</a> (2016), <a href="https://www.sitioandino.com.ar/n/316696/">Sitio Andino</a> (2019), <a href="https://mercado.com.ar/protagonistas/la-casa-del-encuentro-registro-3424-victimas-fatales-por-violencia-de-genero-desde-2015-ano-del-primer-niunamenos">Mercado</a> (2020), <a href="https://www.tiempoar.com.ar/ta_article/victimas-262-violencia-genero-2025/">Tiempo Argentino</a> (2025), entre otras.</li>
+            <li>Corte Suprema de Justicia de la Nación, <a href="https://www.csjn.gov.ar/archivo-cij/nota-19113-La-Corte-Suprema-present--el-Primer-Registro-Nacional-de-Femicidios-de-la-Justicia-Argentina.html">presentación del primer Registro Nacional de Femicidios</a>, 25 de noviembre de 2015; <a href="https://www.csjn.gov.ar/omrecopilacion/omfemicidio/homefemicidio.html">informes anuales</a>; <a href="https://om.csjn.gov.ar/consultaTalleresWeb/public/documentoConsulta/verDocumentoById?idDocumento=386">resumen ejecutivo 2025</a>.</li>
+            <li>Buenos Aires Herald, <a href="https://buenosairesherald.com/society/ten-years-of-ni-una-menos-how-one-tweet-led-to-a-global-phenomenon">«Ten years of Ni Una Menos: how one tweet led to a global phenomenon»</a>, 2025.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="mmiwg">
+    <div class="hoja ancha">
+      <p class="rubro">Lo que nadie contaba</p>
+      <div class="item">
+        <h2>Mujeres indígenas desaparecidas en Estados Unidos</h2>
+        <figure class="lamina">
+          <ol class="barras barras-anchas">
+            <li title="5.712 denuncias en el NCIC del FBI, 2016"><span class="barra-etiqueta">Denuncias de desaparición en el registro del FBI (NCIC), 2016</span><span class="barra-pista" aria-hidden="true"><span class="barra-relleno" style="--v:1"></span></span><span class="barra-valor">5.712</span></li>
+            <li class="destacada" title="116 casos en NamUs"><span class="barra-etiqueta">Casos cargados en la base federal de personas desaparecidas (NamUs)</span><span class="barra-pista" aria-hidden="true"><span class="barra-relleno" style="--v:0.0203"></span></span><span class="barra-valor">116</span></li>
+          </ol>
+          <div class="cifras" style="margin-top:1.5rem">
+            <div><p class="cifra-chica">506</p><p>casos identificados por el informe en 71 ciudades de 29 estados: 128 desaparecidas, 280 homicidios y 98 de situación desconocida.</p></div>
+            <div><p class="cifra-chica">153</p><p>de esos casos no figuraban en ningún registro policial.</p></div>
+          </div>
+          <figcaption>Urban Indian Health Institute, noviembre de 2018. Las denuncias del NCIC no equivalen a personas: una misma persona puede tener más de una.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>En noviembre de 2018 el Urban Indian Health Institute, una organización de salud indígena de Seattle, publicó un informe sobre mujeres y niñas indígenas desaparecidas y asesinadas en ciudades de los Estados Unidos. Sus autoras fueron Annita Lucchesi y Abigail Echo-Hawk.</p>
+          <p>Según el informe, en 2016 el registro del FBI recibió 5.712 denuncias de desaparición de mujeres y niñas indígenas, y la base federal de personas desaparecidas del Departamento de Justicia tenía cargados 116 casos.</p>
+          <p>Con pedidos de información pública, notas de prensa y datos de familias y organizaciones, las autoras identificaron 506 casos en 71 ciudades. De ellos, 153 no figuraban en los registros policiales. El informe aclara que esa cifra es probablemente un subregistro.</p>
+          <ol class="referencias">
+            <li>Annita Lucchesi y Abigail Echo-Hawk, <a href="https://www.uihi.org/wp-content/uploads/2018/11/Missing-and-Murdered-Indigenous-Women-and-Girls-Report.pdf"><i>Missing and Murdered Indigenous Women &amp; Girls: A Snapshot of Data from 71 Urban Cities in the United States</i></a>, Urban Indian Health Institute, noviembre de 2018.</li>
+            <li>Cronkite News, <a href="https://cronkitenews.azpbs.org/2018/11/15/report-crimes-against-native-women-vastly-underreported-in-urban-areas/">«Report: Crimes against Native women vastly underreported in urban areas»</a>, 15 de noviembre de 2018.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="sen">
+    <div class="hoja ancha">
+      <p class="rubro">Lo que nadie contaba</p>
+      <div class="item">
+        <h2>Las mujeres que faltan</h2>
+        <figure class="lamina">
+          <div class="tabla-caja">
+            <table class="datos">
+              <thead><tr><th>País (censo)</th><th class="num">Varones por cada 100 mujeres</th><th class="num">Mujeres faltantes (millones)</th><th class="num">% de las mujeres</th></tr></thead>
+              <tbody>
+                <tr><td>China (1990)</td><td class="num">106,0</td><td class="num">34,6</td><td class="num">6,3</td></tr>
+                <tr><td>India (1991)</td><td class="num">107,9</td><td class="num">38,4</td><td class="num">9,4</td></tr>
+                <tr><td>Pakistán (1981)</td><td class="num">110,5</td><td class="num">4,3</td><td class="num">10,8</td></tr>
+                <tr><td>Bangladesh (1981)</td><td class="num">106,4</td><td class="num">4,6</td><td class="num">8,9</td></tr>
+                <tr><td>Asia occidental (1985)</td><td class="num">107,3</td><td class="num">3,9</td><td class="num">7,1</td></tr>
+                <tr><td>Egipto (1986)</td><td class="num">104,9</td><td class="num">1,2</td><td class="num">5,1</td></tr>
+                <tr><td>Nepal (1981)</td><td class="num">105,0</td><td class="num">0,6</td><td class="num">7,7</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figcaption>Estimación de Klasen y Wink (2001) para la ronda de censos de los años ochenta. En Europa y América del Norte hay alrededor de 95 varones por cada 100 mujeres.</figcaption>
+        </figure>
+        <div class="relato">
+          <p>En diciembre de 1990 el economista Amartya Sen publicó en <i>The New York Review of Books</i> «More Than 100 Million Women Are Missing». En Europa y América del Norte hay unas 105 mujeres por cada 100 varones; en el África subsahariana, unas 102. En China, India, Bangladesh y Asia occidental, Sen encontró unas 94, y en Pakistán, 90.</p>
+          <p>Sen calculó cuántas mujeres más habría si la proporción fuera la de las regiones donde mujeres y varones reciben una atención parecida en salud y alimentación. Con la referencia europea, en China faltaban 50 millones de mujeres, y en el conjunto de los países con proporciones bajas, «muchas más de 100 millones».</p>
+          <p>Estimaciones posteriores, con otros supuestos, dieron cifras de entre unos 60 millones (Ansley Coale, 1991) y 101 millones (Stephan Klasen y Claudia Wink, 2002).</p>
+          <ol class="referencias">
+            <li>Amartya Sen, <a href="https://www.nybooks.com/articles/1990/12/20/more-than-100-million-women-are-missing/">«More Than 100 Million Women Are Missing»</a>, <i>The New York Review of Books</i>, 20 de diciembre de 1990.</li>
+            <li>Amartya Sen, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC286281">«Missing women—revisited»</a>, <i>BMJ</i>, 327, 2003.</li>
+            <li>Ansley J. Coale, <a href="https://doi.org/10.2307/1971953">«Excess female mortality and the balance of the sexes in the population»</a>, <i>Population and Development Review</i>, 17(3), 1991.</li>
+            <li>Stephan Klasen y Claudia Wink, <a href="https://epub.ub.uni-muenchen.de/23/1/0113_klasen.pdf">«A turning point in gender bias in mortality?»</a>, documento de trabajo, Universidad de Múnich, 2001 (tabla 3); versión publicada en <a href="https://doi.org/10.1111/j.1728-4457.2002.00285.x"><i>Population and Development Review</i>, 28(2), 2002</a>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pantalla" id="onuoha">
+    <div class="hoja ancha">
+      <p class="rubro">Lo que nadie contaba</p>
+      <h2>La biblioteca de los datasets que faltan</h2>
+      <p class="bajada">Mimi Ọnụọha, <i>The Library of Missing Datasets</i> (2016): archiveros de metal con carpetas vacías, cada una con el nombre de un conjunto de datos que no existe.</p>
+      <ul class="carpetas">
+        <li>Ventas y precios en el mundo del arte (y relaciones entre artistas y galeristas)</li>
+        <li>Personas excluidas de la vivienda pública por tener antecedentes penales</li>
+        <li>Personas trans asesinadas o heridas en crímenes de odio</li>
+        <li>Estadísticas de pobreza y empleo que incluyan a las personas presas</li>
+        <li>Mezquitas y comunidades musulmanas vigiladas por el FBI o la CIA</li>
+        <li>Movilidad de adultos mayores con discapacidades físicas o cognitivas</li>
+        <li>Adultos mayores LGBT discriminados al buscar vivienda</li>
+        <li>Cuánto le paga Spotify a cada artista por reproducción</li>
+      </ul>
+      <div class="relato" style="max-width:46rem;margin-top:1.5rem">
+        <p>Ọnụọha, artista e investigadora nigeriano-estadounidense, mantiene desde 2015 una lista de conjuntos de datos que faltan en una sociedad que recoge datos de casi todo. La instalación los convierte en carpetas vacías. La lista está pensada desde los Estados Unidos y la autora la presenta como incompleta. El primer ítem aparece tachado: «Civiles muertos en encuentros con la policía», con la aclaración de que ya no es un dataset faltante.</p>
+        <ol class="referencias">
+          <li>Mimi Ọnụọha, <a href="https://github.com/MimiOnuoha/missing-datasets">«An Incomplete List of Missing Data Sets»</a>, GitHub, desde 2016 (traducción propia de los títulos).</li>
+          <li>Mimi Ọnụọha, <a href="https://www.mimionuoha.com/">sitio de la artista</a>, con la descripción de la obra y sus versiones; <a href="https://zkm.de/en/node/5972">ficha de la obra en el ZKM</a>, Karlsruhe.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="hoja">Material de uso docente. Los datos de los gráficos están en <code>assets/material-datos.js</code>, con su fuente.</div>
+</footer>
+
+<button class="boton control-presentar" type="button" aria-pressed="false">Presentar</button>
+
+<script src="assets/sitio.js"></script>
+<script src="assets/graficos.js"></script>
+<script src="assets/material-datos.js"></script>
+<script src="assets/material.js"></script>
+</body>
+</html>
