@@ -91,39 +91,22 @@
   .quitar:hover { opacity: 1; background: rgba(31, 43, 71, 0.1); }
   .ensayo { font-family: var(--interfaz); font-size: 0.9rem; }
 
-  .solo-lector { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-  /* Temporizador */
+  /* Temporizador: franja arriba de la consola (lo compartido está en estilos.css) */
   #temporizador-ajustes .caja { width: min(27rem, calc(100vw - 2rem)); }
-  .temporizador-rapidos { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.75rem 0 1rem; }
-  .temporizador-otro { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.5rem; margin-bottom: 1rem; }
-  .temporizador-otro input { width: 5rem; }
-  .ajustes .opcion { display: flex; gap: 0.5rem; align-items: baseline; margin-top: 0.5rem; }
-  .ajustes .opcion input { padding: 0; }
+  #temporizador-ajustes .temporizador-rapidos { margin: 0.75rem 0 1rem; }
+  #temporizador-ajustes .temporizador-otro { margin-bottom: 1rem; }
+  #temporizador-ajustes .opcion { display: flex; margin-top: 0.5rem; }
+  #temporizador-ajustes .opcion input { padding: 0; }
   .temporizador {
     position: sticky; top: 0; z-index: 6;
     display: grid; grid-template-columns: auto minmax(8rem, 1fr) auto; align-items: center; gap: 0.5rem 1.25rem;
     margin: 0 0 1.25rem; padding: 0.6rem 1rem;
     background: var(--ficha); border: 1px solid var(--pauta); border-left: 6px solid var(--barra); border-radius: 6px;
-    font-family: var(--interfaz);
   }
-  .temporizador[hidden] { display: none; }
-  .temporizador-tiempo { margin: 0; font-size: clamp(2.5rem, 3vw + 1.5rem, 4.5rem); font-weight: 600; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .temporizador-tiempo { font-size: clamp(2.5rem, 3vw + 1.5rem, 4.5rem); }
   .temporizador-medio { display: grid; gap: 0.4rem; }
-  .temporizador-total { margin: 0; font-size: 0.9rem; color: var(--grafito); }
-  .temporizador-pista { height: 0.75rem; background: var(--relleno); border-radius: 999px; overflow: hidden; }
-  .temporizador-relleno { display: block; height: 100%; width: calc(var(--v, 1) * 100%); background: var(--barra); transition: width 0.25s linear; }
-  .temporizador-controles { display: flex; flex-wrap: wrap; gap: 0.4rem; }
   .temporizador.poco { border-left-color: var(--margen); }
-  .temporizador.poco .temporizador-tiempo { color: var(--margen); }
-  .temporizador.poco .temporizador-relleno { background: var(--margen); }
   .temporizador.terminado { border-color: var(--margen); background: var(--relleno); }
-  .temporizador.terminado .temporizador-tiempo { color: var(--margen); animation: latido 0.9s ease-in-out 4 alternate; }
-  @keyframes latido { to { opacity: 0.4; } }
-  @media (prefers-reduced-motion: reduce) {
-    .temporizador.terminado .temporizador-tiempo { animation: none; }
-    .temporizador-relleno { transition: none; }
-  }
   @media (max-width: 40rem) {
     .temporizador { grid-template-columns: auto minmax(0, 1fr); }
     .temporizador-controles { grid-column: 1 / -1; }
@@ -158,6 +141,7 @@
         </form>
         <label class="opcion"><input type="checkbox" id="temporizador-sonido"> Sonido al terminar</label>
         <label class="opcion"><input type="checkbox" id="temporizador-cerrar"> Al terminar, cerrar las respuestas de la actividad abierta</label>
+        <p class="nota" style="margin:0.75rem 0 0"><a href="temporizador.html" target="_blank" rel="noopener">Abrir el temporizador solo, en una página en blanco</a></p>
       </div>
     </details>
     <button class="boton" id="ver-qr" type="button">Mostrar QR para participar</button>

@@ -1,5 +1,6 @@
-// Temporizador de la consola: cuenta regresiva para regular las intervenciones.
-// Solo se ve en la consola, no en los celulares. Queda guardado en este navegador.
+// Temporizador: cuenta regresiva para regular las intervenciones.
+// Lo usan la consola y temporizador.html. No se ve en los celulares. Queda guardado en este navegador,
+// así que si las dos páginas están abiertas muestran el mismo temporizador.
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var CLAVE = "taller-temporizador", CLAVE_OPCIONES = "taller-temporizador-opciones";
@@ -24,6 +25,7 @@
   function dibujar() {
     var caja = $("temporizador");
     caja.hidden = !crono;
+    document.body.classList.toggle("con-temporizador", !!crono);
     if (!crono) return;
     if (crono.fin && crono.fin <= Date.now()) terminar();
     var r = restante(), fin = r <= 0;
@@ -40,10 +42,23 @@
     crono.fin = null;
     crono.restante = 0;
     guardar(CLAVE, crono);
+    avisarFin(true);
+  }
+  function avisarFin(conSonido) {
     $("temporizador-aviso").textContent = "Terminó el tiempo.";
-    if (opciones.sonido) sonar();
+    if (conSonido && opciones.sonido) sonar();
     window.dispatchEvent(new CustomEvent("temporizador:fin", { detail: { cerrar: opciones.cerrar } }));
   }
+
+  // Si la otra página cambia el temporizador, se actualiza acá. Suena solo la que vio terminar el tiempo.
+  window.addEventListener("storage", function (e) {
+    if (e.key === CLAVE_OPCIONES) { opciones = cargar(CLAVE_OPCIONES, opciones); marcarOpciones(); return; }
+    if (e.key !== CLAVE) return;
+    var antes = crono;
+    crono = cargar(CLAVE, null);
+    if (antes && antes.fin && crono && !crono.fin && crono.restante === 0) avisarFin(false);
+    dibujar();
+  });
 
   function empezar(ms) {
     if (!(ms > 0)) return;
@@ -101,14 +116,20 @@
     dibujar();
   });
 
-  $("temporizador-sonido").checked = opciones.sonido;
-  $("temporizador-cerrar").checked = opciones.cerrar;
+  // "cerrar" solo existe en la consola. Se relee antes de guardar para no pisar lo que cambió la otra página.
+  function marcarOpciones() {
+    ["sonido", "cerrar"].forEach(function (k) { if ($("temporizador-" + k)) $("temporizador-" + k).checked = opciones[k]; });
+  }
   ["sonido", "cerrar"].forEach(function (k) {
-    $("temporizador-" + k).addEventListener("change", function () {
+    var casilla = $("temporizador-" + k);
+    if (!casilla) return;
+    casilla.addEventListener("change", function () {
+      opciones = cargar(CLAVE_OPCIONES, opciones);
       opciones[k] = this.checked;
       guardar(CLAVE_OPCIONES, opciones);
     });
   });
+  marcarOpciones();
 
   // Si terminó con la página cerrada, queda terminado sin sonar.
   if (crono && crono.fin && crono.fin <= Date.now()) { crono.fin = null; crono.restante = 0; guardar(CLAVE, crono); }

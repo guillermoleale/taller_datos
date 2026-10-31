@@ -13,6 +13,7 @@ Materiales y actividades en vivo del encuentro previo al Taller de Datos de la M
 | `generativo.html` | Un modelo de lenguaje clasificando comentarios: corridas grabadas y corrida en vivo con API key. |
 | `en-vivo.html` | Consola docente: abre actividades, muestra el QR y los resultados en vivo. |
 | `participar.html` | Lo que ven los alumnos en el celular. El enlace corto es `/p`. |
+| `temporizador.html` | Solo el temporizador, grande en una página en blanco, para proyectar sin ninguna actividad. |
 
 En computadora, el botón **Presentar** de las páginas de contenido muestra una pantalla por vez (flechas para avanzar, Escape para salir).
 
@@ -27,7 +28,7 @@ Están en `assets/actividades.js` y se editan ahí:
 
 Las respuestas son anónimas: cada celular genera un identificador al azar, sin nombre ni correo.
 
-La consola tiene un **Temporizador** (arriba, junto al QR) para regular las intervenciones: una cuenta regresiva grande que se ve en la pantalla de la consola y en pantalla completa, no en los celulares. Puede sonar al terminar y, si se marca, cerrar las respuestas de la actividad abierta.
+La consola tiene un **Temporizador** (arriba, junto al QR) para regular las intervenciones: una cuenta regresiva grande que se ve en la pantalla de la consola y en pantalla completa, no en los celulares. Puede sonar al terminar y, si se marca, cerrar las respuestas de la actividad abierta. También está solo, sin actividades, en `temporizador.html`; si esa página y la consola están abiertas en el mismo navegador, muestran el mismo temporizador.
 
 ## Ensayar sin conectar nada
 

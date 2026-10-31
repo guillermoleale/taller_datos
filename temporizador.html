@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Temporizador</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/estilos.css">
+<style>
+  body { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; padding: 2rem var(--gutter) 5rem; }
+  main { width: 100%; display: grid; justify-items: center; text-align: center; }
+
+  /* Elegir la duración: se ve cuando no hay temporizador */
+  .eleccion { width: min(34rem, 100%); display: grid; justify-items: center; gap: 1.25rem; }
+  .eleccion h1 { font-size: clamp(2.5rem, 4vw + 1.5rem, 4rem); margin: 0; }
+  .eleccion .nota { margin: 0; }
+  .eleccion .temporizador-rapidos, .eleccion .temporizador-otro { justify-content: center; }
+  .eleccion .temporizador-rapidos .boton { font-size: 1.1rem; padding: 0.7rem 1.1rem; }
+  body.con-temporizador .eleccion { display: none; }
+
+  /* La cuenta regresiva, grande y centrada */
+  .temporizador { width: min(70rem, 100%); display: grid; justify-items: center; gap: 1.5rem; }
+  .temporizador-tiempo { font-size: clamp(6rem, 24vw, 22rem); letter-spacing: -0.04em; }
+  .temporizador-medio { width: min(60rem, 92%); display: grid; gap: 0.6rem; }
+  .temporizador .temporizador-total { font-size: clamp(1rem, 1vw + 0.8rem, 1.4rem); }
+  .temporizador-pista { height: 1rem; }
+  .temporizador-controles { justify-content: center; opacity: 0.6; transition: opacity 0.2s; }
+  .temporizador-controles:hover, .temporizador-controles:focus-within { opacity: 1; }
+  :fullscreen .temporizador-controles { opacity: 0; }
+  :fullscreen .temporizador:hover .temporizador-controles, :fullscreen .temporizador-controles:focus-within { opacity: 1; }
+
+  .esquina { position: fixed; right: 1rem; bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; font-family: var(--interfaz); font-size: 0.9rem; color: var(--grafito); }
+  :fullscreen .esquina { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <div class="eleccion" id="temporizador-ajustes">
+    <h1>Temporizador</h1>
+    <p class="nota">Elegí cuánto dura cada intervención. Empieza a contar apenas la elegís.</p>
+    <div class="temporizador-rapidos">
+      <button class="boton" type="button" data-segundos="30">30 s</button>
+      <button class="boton" type="button" data-segundos="60">1 min</button>
+      <button class="boton" type="button" data-segundos="120">2 min</button>
+      <button class="boton" type="button" data-segundos="180">3 min</button>
+      <button class="boton" type="button" data-segundos="300">5 min</button>
+    </div>
+    <form class="temporizador-otro" id="temporizador-otro">
+      <label>Minutos <input type="number" id="temporizador-min" min="0" max="99" value="4" inputmode="numeric"></label>
+      <label>Segundos <input type="number" id="temporizador-seg" min="0" max="59" value="0" inputmode="numeric"></label>
+      <button class="boton principal" type="submit">Empezar</button>
+    </form>
+    <label class="opcion"><input type="checkbox" id="temporizador-sonido"> Sonido al terminar</label>
+  </div>
+
+  <section class="temporizador" id="temporizador" aria-label="Temporizador" hidden>
+    <p class="temporizador-tiempo" id="temporizador-tiempo" role="timer"></p>
+    <div class="temporizador-medio">
+      <p class="temporizador-total" id="temporizador-total"></p>
+      <div class="temporizador-pista"><span class="temporizador-relleno" id="temporizador-relleno"></span></div>
+    </div>
+    <div class="temporizador-controles">
+      <button class="boton" id="temporizador-pausa" type="button">Pausar</button>
+      <button class="boton discreto" id="temporizador-reiniciar" type="button">Reiniciar</button>
+      <button class="boton discreto" id="temporizador-quitar" type="button">Elegir otra duración</button>
+    </div>
+  </section>
+  <p class="solo-lector" id="temporizador-aviso" aria-live="polite"></p>
+</main>
+
+<nav class="esquina" aria-label="Opciones de la página">
+  <button class="boton discreto" id="completa" type="button">Pantalla completa</button>
+  <a href="en-vivo.html">Ir a la consola</a>
+</nav>
+
+<script src="assets/temporizador.js"></script>
+<script>
+  document.getElementById("completa").addEventListener("click", function () {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+  });
+</script>
+</body>
+</html>

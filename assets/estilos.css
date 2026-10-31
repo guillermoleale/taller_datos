@@ -221,6 +221,24 @@ html.presentar .cabecera { display: none; }
 .acciones { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 1rem; }
 .aviso-error { color: var(--margen); font-family: var(--interfaz); font-size: 0.95rem; }
 
+/* Temporizador (consola y temporizador.html) */
+.temporizador { font-family: var(--interfaz); }
+.temporizador[hidden] { display: none; }
+.temporizador-tiempo { margin: 0; font-weight: 600; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.temporizador-total { margin: 0; font-size: 0.9rem; color: var(--grafito); }
+.temporizador-pista { height: 0.75rem; background: var(--relleno); border-radius: 999px; overflow: hidden; }
+.temporizador-relleno { display: block; height: 100%; width: calc(var(--v, 1) * 100%); background: var(--barra); transition: width 0.25s linear; }
+.temporizador-controles { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.temporizador.poco .temporizador-tiempo { color: var(--margen); }
+.temporizador.poco .temporizador-relleno { background: var(--margen); }
+.temporizador.terminado .temporizador-tiempo { color: var(--margen); animation: latido 0.9s ease-in-out 4 alternate; }
+@keyframes latido { to { opacity: 0.4; } }
+.temporizador-rapidos { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.temporizador-otro { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.5rem; font-family: var(--interfaz); }
+.temporizador-otro label { display: grid; gap: 0.25rem; }
+.temporizador-otro input { width: 5rem; font: inherit; padding: 0.45rem 0.6rem; border: 1px solid var(--pauta); border-radius: 6px; background: var(--papel); color: var(--tinta); }
+.opcion { display: flex; gap: 0.5rem; align-items: baseline; font-family: var(--interfaz); }
+
 /* Pie */
 .pie { border-top: 1px solid var(--pauta); padding-block: 2rem 3rem; font-family: var(--interfaz); font-size: 0.9rem; color: var(--grafito); }
 
