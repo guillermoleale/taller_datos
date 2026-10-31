@@ -34,10 +34,9 @@
   .item-titulo { font-size: 0.95rem; }
   .item-meta { font-size: 0.8rem; color: var(--grafito); }
 
-  .principal { padding: 1.25rem var(--gutter) 3rem; min-width: 0; }
-  #panel { background: var(--papel); }
-  #panel:fullscreen { padding: 2rem 3rem; overflow: auto; }
-  #panel:fullscreen .controles { display: none; }
+  main.principal { padding: 1.25rem var(--gutter) 3rem; min-width: 0; }
+  main.principal:fullscreen { background: var(--papel); padding: 2rem 3rem; overflow: auto; }
+  main.principal:fullscreen .controles, main.principal:fullscreen .control-inicio { display: none; }
   .panel-grupo { font-family: var(--interfaz); font-size: 0.9rem; color: var(--grafito); margin: 0; }
   #panel h1 { font-size: clamp(1.8rem, 2.5vw + 1rem, 3rem); margin: 0.2rem 0 0.4rem; }
   .panel-consigna { font-size: 1.25rem; max-width: 46rem; }
@@ -47,6 +46,7 @@
   .participar-chico b { color: var(--tinta); }
 
   #inicio .qr { width: min(18rem, 70vw); }
+  .control-inicio { margin-top: 1.5rem; }
   .enlace-grande { font-size: clamp(1.3rem, 2.5vw + 0.8rem, 2.2rem); font-weight: 600; word-break: break-all; }
   .qr svg { width: 100%; height: auto; display: block; background: #fff; border-radius: 6px; }
   dialog#dialogo-qr { border: 1px solid var(--pauta); border-radius: 8px; background: var(--papel); color: var(--tinta); padding: 2rem; text-align: center; max-width: 92vw; }
@@ -90,6 +90,49 @@
   }
   .quitar:hover { opacity: 1; background: rgba(31, 43, 71, 0.1); }
   .ensayo { font-family: var(--interfaz); font-size: 0.9rem; }
+
+  .solo-lector { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+  /* Temporizador */
+  #temporizador-ajustes .caja { width: min(27rem, calc(100vw - 2rem)); }
+  .temporizador-rapidos { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.75rem 0 1rem; }
+  .temporizador-otro { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.5rem; margin-bottom: 1rem; }
+  .temporizador-otro input { width: 5rem; }
+  .ajustes .opcion { display: flex; gap: 0.5rem; align-items: baseline; margin-top: 0.5rem; }
+  .ajustes .opcion input { padding: 0; }
+  .temporizador {
+    position: sticky; top: 0; z-index: 6;
+    display: grid; grid-template-columns: auto minmax(8rem, 1fr) auto; align-items: center; gap: 0.5rem 1.25rem;
+    margin: 0 0 1.25rem; padding: 0.6rem 1rem;
+    background: var(--ficha); border: 1px solid var(--pauta); border-left: 6px solid var(--barra); border-radius: 6px;
+    font-family: var(--interfaz);
+  }
+  .temporizador[hidden] { display: none; }
+  .temporizador-tiempo { margin: 0; font-size: clamp(2.5rem, 3vw + 1.5rem, 4.5rem); font-weight: 600; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .temporizador-medio { display: grid; gap: 0.4rem; }
+  .temporizador-total { margin: 0; font-size: 0.9rem; color: var(--grafito); }
+  .temporizador-pista { height: 0.75rem; background: var(--relleno); border-radius: 999px; overflow: hidden; }
+  .temporizador-relleno { display: block; height: 100%; width: calc(var(--v, 1) * 100%); background: var(--barra); transition: width 0.25s linear; }
+  .temporizador-controles { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .temporizador.poco { border-left-color: var(--margen); }
+  .temporizador.poco .temporizador-tiempo { color: var(--margen); }
+  .temporizador.poco .temporizador-relleno { background: var(--margen); }
+  .temporizador.terminado { border-color: var(--margen); background: var(--relleno); }
+  .temporizador.terminado .temporizador-tiempo { color: var(--margen); animation: latido 0.9s ease-in-out 4 alternate; }
+  @keyframes latido { to { opacity: 0.4; } }
+  @media (prefers-reduced-motion: reduce) {
+    .temporizador.terminado .temporizador-tiempo { animation: none; }
+    .temporizador-relleno { transition: none; }
+  }
+  @media (max-width: 40rem) {
+    .temporizador { grid-template-columns: auto minmax(0, 1fr); }
+    .temporizador-controles { grid-column: 1 / -1; }
+  }
+  main.principal:fullscreen .temporizador { padding: 1rem 1.5rem; }
+  main.principal:fullscreen .temporizador-tiempo { font-size: clamp(4rem, 8vw, 8rem); }
+  main.principal:fullscreen .temporizador-controles { opacity: 0; transition: opacity 0.2s; }
+  main.principal:fullscreen .temporizador:hover .temporizador-controles,
+  main.principal:fullscreen .temporizador-controles:focus-within { opacity: 1; }
 </style>
 </head>
 <body>
@@ -97,6 +140,26 @@
   <div class="hoja">
     <a class="marca" href="index.html">Taller de Datos</a>
     <span id="conexion" role="status"></span>
+    <details class="ajustes" id="temporizador-ajustes">
+      <summary>Temporizador</summary>
+      <div class="caja">
+        <p class="nota" style="margin:0">Empieza a contar apenas elegís la duración. Se ve solo en esta pantalla.</p>
+        <div class="temporizador-rapidos">
+          <button class="boton" type="button" data-segundos="30">30 s</button>
+          <button class="boton" type="button" data-segundos="60">1 min</button>
+          <button class="boton" type="button" data-segundos="120">2 min</button>
+          <button class="boton" type="button" data-segundos="180">3 min</button>
+          <button class="boton" type="button" data-segundos="300">5 min</button>
+        </div>
+        <form class="temporizador-otro" id="temporizador-otro">
+          <label>Minutos <input type="number" id="temporizador-min" min="0" max="99" value="4" inputmode="numeric"></label>
+          <label>Segundos <input type="number" id="temporizador-seg" min="0" max="59" value="0" inputmode="numeric"></label>
+          <button class="boton principal" type="submit">Empezar</button>
+        </form>
+        <label class="opcion"><input type="checkbox" id="temporizador-sonido"> Sonido al terminar</label>
+        <label class="opcion"><input type="checkbox" id="temporizador-cerrar"> Al terminar, cerrar las respuestas de la actividad abierta</label>
+      </div>
+    </details>
     <button class="boton" id="ver-qr" type="button">Mostrar QR para participar</button>
     <details class="ajustes">
       <summary>Ajustes</summary>
@@ -120,8 +183,22 @@
 <div class="consola">
   <nav class="lista" id="lista" aria-label="Actividades"></nav>
 
-  <main class="principal">
+  <main class="principal" id="principal">
     <p id="aviso" class="aviso-error" role="alert" hidden></p>
+
+    <section class="temporizador" id="temporizador" aria-label="Temporizador" hidden>
+      <p class="temporizador-tiempo" id="temporizador-tiempo" role="timer"></p>
+      <div class="temporizador-medio">
+        <p class="temporizador-total" id="temporizador-total"></p>
+        <div class="temporizador-pista"><span class="temporizador-relleno" id="temporizador-relleno"></span></div>
+      </div>
+      <div class="temporizador-controles">
+        <button class="boton" id="temporizador-pausa" type="button">Pausar</button>
+        <button class="boton discreto" id="temporizador-reiniciar" type="button">Reiniciar</button>
+        <button class="boton discreto" id="temporizador-quitar" type="button">Quitar</button>
+      </div>
+    </section>
+    <p class="solo-lector" id="temporizador-aviso" aria-live="polite"></p>
 
     <section id="inicio">
       <h1>Consola en vivo</h1>
@@ -129,6 +206,7 @@
       <p>Para participar, entren a</p>
       <p class="enlace-grande" data-enlace></p>
       <div class="qr" id="qr-inicio"></div>
+      <p class="control-inicio"><button class="boton discreto" id="completa-inicio" type="button">Pantalla completa</button></p>
     </section>
 
     <section id="panel" hidden>
@@ -161,6 +239,7 @@
 <script src="assets/envivo.js"></script>
 <script src="assets/actividades.js"></script>
 <script src="assets/sitio.js"></script>
+<script src="assets/temporizador.js"></script>
 <script src="assets/consola.js"></script>
 </body>
 </html>

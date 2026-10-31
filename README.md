@@ -27,6 +27,8 @@ Están en `assets/actividades.js` y se editan ahí:
 
 Las respuestas son anónimas: cada celular genera un identificador al azar, sin nombre ni correo.
 
+La consola tiene un **Temporizador** (arriba, junto al QR) para regular las intervenciones: una cuenta regresiva grande que se ve en la pantalla de la consola y en pantalla completa, no en los celulares. Puede sonar al terminar y, si se marca, cerrar las respuestas de la actividad abierta.
+
 ## Ensayar sin conectar nada
 
 Mientras `urlScript` esté vacío en `assets/config.js`, todo funciona en **modo de prueba**: abrí `en-vivo.html` en una pestaña y `participar.html` en otra del mismo navegador. El botón **Simular respuestas** de la consola agrega respuestas ficticias.

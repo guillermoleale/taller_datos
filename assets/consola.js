@@ -498,10 +498,16 @@
   });
   $("terminar").addEventListener("click", function () { fijar(null); });
   $("simular").addEventListener("click", simular);
-  $("completa").addEventListener("click", function () {
-    var p = $("panel");
+  // Pantalla completa de toda la zona principal, para que se vea también el temporizador.
+  function pantallaCompleta() {
+    var p = $("principal");
     if (document.fullscreenElement) document.exitFullscreen();
     else if (p.requestFullscreen) p.requestFullscreen();
+  }
+  $("completa").addEventListener("click", pantallaCompleta);
+  $("completa-inicio").addEventListener("click", pantallaCompleta);
+  window.addEventListener("temporizador:fin", function (e) {
+    if (e.detail && e.detail.cerrar && estado && estado.abierta) fijar(Object.assign({}, estado, { abierta: false }));
   });
   $("ver-qr").addEventListener("click", function () {
     var d = $("dialogo-qr");
